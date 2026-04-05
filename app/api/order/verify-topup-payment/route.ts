@@ -116,8 +116,11 @@ export async function POST(req: Request) {
     }
 
     /* =====================================================
-       CHECK GATEWAY STATUS / WALLET STATUS
+       CHECK GATEWAY STATUS / WALLET STATUS (ZiniPay V1)
     ===================================================== */
+    const { invoiceId: bodyInvoiceId } = await req.json();
+    const invoiceId = bodyInvoiceId || order.gatewayOrderId;
+
     if (order.paymentMethod === "wallet") {
       // Wallet payments are verified during creation
       if (order.paymentStatus !== "success") {
@@ -127,26 +130,34 @@ export async function POST(req: Request) {
         });
       }
     } else {
-      const formData = new URLSearchParams();
-      formData.append("user_token", process.env.XTRA_USER_TOKEN!);
-      formData.append("order_id", orderId);
+      if (!invoiceId) {
+        return NextResponse.json({
+          success: false,
+          message: "Invoice ID missing for verification",
+        });
+      }
 
-      const resp = await fetch(
-        "https://xyzpay.site/api/check-order-status",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: formData.toString(),
-        }
-      );
+      const ziniApiKey = process.env.XTRA_USER_TOKEN!;
+      
+      const resp = await fetch("https://api.zinipay.com/v1/payment/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "zini-api-key": ziniApiKey,
+        },
+        body: JSON.stringify({
+          invoiceId: invoiceId,
+          apiKey: ziniApiKey,
+        }),
+      });
 
       const data = await resp.json();
-      const txnStatus = data?.result?.txnStatus;
+      const txnStatus = data?.status; // ZiniPay V1 uses 'status' top-level
 
       /* =====================================================
          PAYMENT STATES
       ===================================================== */
-      if (txnStatus === "PENDING") {
+      if (txnStatus === "PENDING" || txnStatus === "INITIATED") {
         return NextResponse.json({
           success: false,
           message: "Payment pending, please wait",
@@ -161,20 +172,16 @@ export async function POST(req: Request) {
 
         return NextResponse.json({
           success: false,
-          message: "Payment failed",
+          message: "Payment failed (" + (data.message || txnStatus) + ")",
         });
       }
 
       /* =====================================================
          STRICT PRICE CHECK
       ===================================================== */
-      const paidAmount = Number(
-        data?.result?.amount ||
-        data?.result?.txnAmount ||
-        data?.result?.orderAmount
-      );
+      const paidAmount = Number(data?.amount || data?.data?.amount);
 
-      if (!paidAmount || paidAmount !== Number(order.price)) {
+      if (!paidAmount || Math.abs(paidAmount - Number(order.price)) > 1) {
         order.status = "fraud";
         order.paymentStatus = "failed";
         order.topupStatus = "failed";
@@ -189,6 +196,8 @@ export async function POST(req: Request) {
 
       order.paymentStatus = "success";
       order.gatewayResponse = data;
+      // Also save invoiceId if it was first seen here
+      if (!order.gatewayOrderId) order.gatewayOrderId = invoiceId;
       await order.save();
     }
 

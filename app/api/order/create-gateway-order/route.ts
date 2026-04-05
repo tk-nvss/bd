@@ -327,21 +327,29 @@ export async function POST(req: Request) {
       });
     }
 
-    /* ---------- PAYMENT GATEWAY ---------- */
-    const formData = new URLSearchParams();
-    if (phone) formData.append("customer_mobile", phone);
-    formData.append("user_token", process.env.XTRA_USER_TOKEN!);
-    formData.append("amount", String(price));
-    formData.append("order_id", orderId);
-    formData.append(
-      "redirect_url",
-      `${process.env.NEXT_PUBLIC_BASE_URLU}/payment/topup-complete`
-    );
+    /* ---------- PAYMENT GATEWAY (ZiniPay V1 API) ---------- */
+    const ziniApiKey = process.env.XTRA_USER_TOKEN!;
 
-    const resp = await fetch("https://xyzpay.site/api/create-order", {
+    const ziniPayload = {
+      cus_name: decoded.userName || "Customer",
+      cus_email: email,
+      amount: String(price),
+      redirect_url: `${process.env.NEXT_PUBLIC_BASE_URLU}/payment/topup-complete`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URLU}/`,
+      webhook_url: `${process.env.NEXT_PUBLIC_BASE_URLU}/api/webhook`,
+      metadata: {
+        orderId: orderId,
+        phone: phone || "",
+      },
+    };
+
+    const resp = await fetch("https://api.zinipay.com/v1/payment/create", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formData.toString(),
+      headers: {
+        "Content-Type": "application/json",
+        "zini-api-key": ziniApiKey,
+      },
+      body: JSON.stringify(ziniPayload),
     });
 
     const data = await resp.json();
@@ -349,17 +357,20 @@ export async function POST(req: Request) {
     if (!data?.status) {
       return NextResponse.json({
         success: false,
-        message: "Payment gateway error",
+        message: data?.message || "Payment gateway error",
       });
     }
 
-    newOrder.gatewayOrderId = data.result.orderId;
-    await newOrder.save();
+    // Capture Invoice ID if provided in response for future verification
+    if (data.invoiceId) {
+      newOrder.gatewayOrderId = data.invoiceId;
+      await newOrder.save();
+    }
 
     return NextResponse.json({
       success: true,
       orderId,
-      paymentUrl: data.result.payment_url,
+      paymentUrl: data.payment_url,
     });
   } catch (err: any) {
     console.error("CREATE ORDER ERROR:", err);

@@ -1,16 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, XCircle, Loader2, ArrowLeft, Home } from "lucide-react";
+import { CheckCircle2, XCircle, Loader2, Home } from "lucide-react";
 import Link from "next/link";
 
-export default function TopupComplete() {
-  const [status, setStatus] = useState("checking"); // checking | success | failed
+function TopupCompleteContent() {
+  const searchParams = useSearchParams();
+  const [status, setStatus] = useState("checking");
   const [message, setMessage] = useState("Verifying payment...");
 
   useEffect(() => {
     const orderId = localStorage.getItem("pending_topup_order");
+    const invoiceId = searchParams.get("invoiceId");
 
     if (!orderId) {
       setStatus("failed");
@@ -25,10 +28,10 @@ export default function TopupComplete() {
         const res = await fetch("/api/order/verify-topup-payment", {
           method: "POST",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
-
           },
-          body: JSON.stringify({ orderId }),
+          body: JSON.stringify({ orderId, invoiceId }),
         });
 
         const data = await res.json();
@@ -39,7 +42,7 @@ export default function TopupComplete() {
           localStorage.removeItem("pending_topup_order");
         } else {
           setStatus("failed");
-          setMessage("Payment failed or still pending");
+          setMessage(data.message || "Payment failed or still pending");
         }
       } catch (err) {
         console.error("Topup verification error:", err);
@@ -49,7 +52,7 @@ export default function TopupComplete() {
     }
 
     verify();
-  }, []);
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--background)] px-4 relative overflow-hidden transition-colors duration-500">
@@ -153,5 +156,16 @@ export default function TopupComplete() {
         </div>
       </motion.div>
     </div>
+  );
+}
+export default function TopupComplete() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
+        <Loader2 className="w-12 h-12 animate-spin text-[var(--accent)]" />
+      </div>
+    }>
+      <TopupCompleteContent />
+    </Suspense>
   );
 }

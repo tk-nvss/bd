@@ -27,7 +27,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 });
         }
 
-        const { orderId } = await req.json();
+        const { orderId, invoiceId: bodyInvoiceId } = await req.json();
         if (!orderId) {
             return NextResponse.json({ message: "Missing orderId" }, { status: 400 });
         }
@@ -45,30 +45,32 @@ export async function POST(req: Request) {
             return NextResponse.json({ success: false, message: "Transaction not found or not pending." });
         }
 
-        /* ---------- CHECK GATEWAY ---------- */
-        const formData = new URLSearchParams();
-        formData.append("user_token", process.env.XTRA_USER_TOKEN!);
-        formData.append("order_id", orderId);
+        /* ---------- CHECK GATEWAY (ZiniPay V1) ---------- */
+        const invoiceId = bodyInvoiceId || transaction.gatewayTxnId || orderId;
+        const ziniApiKey = process.env.XTRA_USER_TOKEN!;
 
-        const resp = await fetch("https://xyzpay.site/api/check-order-status", {
+        const resp = await fetch("https://api.zinipay.com/v1/payment/verify", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: formData.toString(),
+            headers: {
+                "Content-Type": "application/json",
+                "zini-api-key": ziniApiKey,
+            },
+            body: JSON.stringify({
+                invoiceId: invoiceId,
+                apiKey: ziniApiKey,
+            }),
         });
 
         const data = await resp.json();
-        const gatewaySuccess =
-            data?.status == true ||
-            data?.result?.txnStatus == "COMPLETED" ||
-            data?.result?.txnStatus == "SUCCESS";
+        const gatewaySuccess = data?.status === "COMPLETED" || data?.status === "SUCCESS";
 
         if (!gatewaySuccess) {
             transaction.status = "pending";
             await transaction.save();
-            return NextResponse.json({ success: false, message: "Gateway payment not confirmed." });
+            return NextResponse.json({ success: false, message: `Gateway status: ${data?.status || "FAILED"} (${data?.message || "Verify failed"})` });
         }
 
-        const amount = Number(data?.result?.amount || data?.result?.txnAmount || 0);
+        const amount = Number(data?.amount || data?.data?.amount || 0);
         if (!amount) {
             transaction.status = "pending";
             await transaction.save();

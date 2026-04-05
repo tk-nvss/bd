@@ -14,8 +14,8 @@ import { FiSend, FiMessageSquare, FiInfo, FiCheckCircle, FiAlertCircle, FiZap } 
 
 const SUPPORT_CONFIG = {
   header: {
-    title: process.env.NEXT_PUBLIC_SUPPORT_TITLE || "Support Center",
-    subtitle: process.env.NEXT_PUBLIC_SUPPORT_SUBTITLE || "Our dedicated support team is here to assist you with any questions or issues.",
+    title: "Support Center",
+    subtitle: "Facing an issue? Contact us instantly or submit a support query and our team will assist you.",
   },
 
   contacts: {

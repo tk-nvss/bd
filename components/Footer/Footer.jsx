@@ -20,7 +20,7 @@ import {
 
 /* ===================== ENV ===================== */
 
-const BRAND_NAME = "TK";
+const BRAND_NAME = process.env.NEXT_PUBLIC_BRAND_NAME || "TK";
 const BRAND_DESCRIPTION =
   process.env.NEXT_PUBLIC_BRAND_DESCRIPTION ||
   "Fast, secure MLBB top-ups with instant delivery.";
@@ -33,9 +33,9 @@ const TRUSTPILOT_URL =
   process.env.NEXT_PUBLIC_TRUSTPILOT_URL ||
   "https://www.trustpilot.com/evaluate/meowjiofficial.com";
 
-const MADE_BY_NAME = "TK";
-const MADE_BY_URL = "https://wa.me/9178521537";
-const COPYRIGHT_NAME = "Meowji Official";
+const MADE_BY_NAME = process.env.NEXT_PUBLIC_MADE_BY_NAME || "TK";
+const MADE_BY_URL = process.env.NEXT_PUBLIC_MADE_BY_URL || "https://wa.me/9178521537";
+const COPYRIGHT_NAME = process.env.NEXT_PUBLIC_COPYRIGHT_NAME || BRAND_NAME;
 
 /* ===================== DERIVED ===================== */
 

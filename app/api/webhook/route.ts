@@ -18,17 +18,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
     }
 
-    const { status, order_id, remark1, remark2 } = json;
+    const { 
+      status, 
+      order_id: bodyOrderId, 
+      metadata, 
+      invoiceId, 
+      remark1: bodyRemark1 
+    } = json;
+
+    const order_id = bodyOrderId || metadata?.orderId || metadata?.order_id;
+    const isSuccess = status === "SUCCESS" || status === "COMPLETED";
+    const remark1 = bodyRemark1 || metadata?.remark1 || (metadata?.type === "wallet-topup" ? "wallet-topup" : null);
 
     await connectDB();
 
-    if (status === "SUCCESS") {
+    if (isSuccess && order_id) {
       // 1. Check if it's a wallet recharge
       if (remark1 === "wallet-topup") {
-        // Use atomic update to prevent double recharge races
         const transaction = await WalletTransaction.findOneAndUpdate(
           { transactionId: order_id, status: "pending" },
-          { $set: { status: "processing" } }, // Lock it
+          { $set: { status: "processing" } }, 
           { new: true }
         );
 
@@ -46,11 +55,11 @@ export async function POST(req: NextRequest) {
             transaction.status = "success";
             transaction.balanceBefore = (user.wallet || 0) - transaction.amount;
             transaction.balanceAfter = user.wallet;
+            if (invoiceId) transaction.gatewayTxnId = invoiceId;
             await transaction.save();
 
-            console.log(`Wallet recharged (Webhook) for user ${user.userId}: +${transaction.amount}`);
+            console.log(`Wallet recharged (Webhook V1) for user ${user.userId}: +${transaction.amount}`);
           } else {
-            // Rollback transaction status if user not found
             transaction.status = "pending";
             await transaction.save();
           }
@@ -61,9 +70,10 @@ export async function POST(req: NextRequest) {
         const order = await Order.findOne({ orderId: order_id });
         if (order && order.paymentStatus === "pending") {
           order.paymentStatus = "success";
-          order.status = "pending"; // Stay pending until fulfillment
+          order.status = "pending"; 
+          if (invoiceId) order.gatewayOrderId = invoiceId;
           await order.save();
-          console.log(`Order ${order_id} marked as paid (pending fulfillment)`);
+          console.log(`Order ${order_id} marked as paid (Webhook V1)`);
         }
       }
 

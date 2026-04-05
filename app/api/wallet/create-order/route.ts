@@ -64,33 +64,54 @@ export async function POST(req: Request) {
       description: `Wallet recharge via UPI`,
     });
 
-    const formData = new URLSearchParams();
-    formData.append("customer_mobile", mobile || "9999999999");
-    formData.append("user_token", process.env.XTRA_USER_TOKEN!);
-    formData.append("amount", amount.toString());
-    formData.append("order_id", transactionId);
-    formData.append(
-      "redirect_url",
-      `${process.env.NEXT_PUBLIC_BASE_URLU}/dashboard/wallet`
-    );
-    formData.append("remark1", "wallet-topup");
-    formData.append("remark2", userId);
+    /* ---------- PAYMENT GATEWAY (ZiniPay V1 API) ---------- */
+    const ziniApiKey = process.env.XTRA_USER_TOKEN!;
 
-    const resp = await fetch("https://xyzpay.site/api/create-order", {
+    const ziniPayload = {
+      cus_name: decoded.userName || "Customer",
+      cus_email: decoded.email || "",
+      amount: String(amount),
+      redirect_url: `${process.env.NEXT_PUBLIC_BASE_URLU}/dashboard/wallet`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URLU}/dashboard/wallet`,
+      webhook_url: `${process.env.NEXT_PUBLIC_BASE_URLU}/api/webhook`,
+      metadata: {
+        orderId: transactionId,
+        type: "wallet-topup",
+        userId: userId,
+        phone: mobile || "",
+      },
+    };
+
+    const resp = await fetch("https://api.zinipay.com/v1/payment/create", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formData.toString(),
+      headers: {
+        "Content-Type": "application/json",
+        "zini-api-key": ziniApiKey,
+      },
+      body: JSON.stringify(ziniPayload),
     });
 
     const data = await resp.json();
 
-    if (!data.status) {
-      return NextResponse.json({ success: false, message: data.message });
+    if (!data?.status) {
+      return NextResponse.json({
+        success: false,
+        message: data?.message || "Payment gateway error",
+      });
+    }
+
+    // Capture Invoice ID if provided
+    if (data.invoiceId) {
+      const tx = await WalletTransaction.findOne({ transactionId });
+      if (tx) {
+        tx.gatewayTxnId = data.invoiceId;
+        await tx.save();
+      }
     }
 
     return NextResponse.json({
       success: true,
-      paymentUrl: data.result.payment_url,
+      paymentUrl: data.payment_url,
       orderId: transactionId,
     });
   } catch (err: any) {
