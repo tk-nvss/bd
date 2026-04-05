@@ -301,7 +301,7 @@ export default function ApiTab() {
                                             </h4>
                                             <div className="bg-[var(--background)]/60 rounded-[1.5rem] p-6 font-mono text-xs leading-relaxed border border-[var(--border)] shadow-inner">
                                                 <p className="text-blue-400 mb-2">// Request Structure</p>
-                                                <p className="text-[var(--accent)]">POST https://meowjiofficial.com/api/v1/order/create</p>
+                                                <p className="text-[var(--accent)]">POST https://bdcoins.com/api/v1/order/create</p>
                                                 <p className="text-[var(--muted)] mt-2">{"Headers: {"}</p>
                                                 <p className="pl-6 text-[var(--foreground)] text-[10px]">"X-API-KEY": "TK_MW_...",</p>
                                                 <p className="pl-6 text-[var(--foreground)] text-[10px]">"Content-Type": "application/json"</p>

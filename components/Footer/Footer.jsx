@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { QRCodeCanvas } from "qrcode.react";
 import { FaHeart, FaGamepad } from "react-icons/fa6";
 import {
   FiInstagram,
@@ -22,16 +20,13 @@ import {
 
 const BRAND_NAME = process.env.NEXT_PUBLIC_BRAND_NAME || "TK";
 const BRAND_DESCRIPTION =
-  process.env.NEXT_PUBLIC_BRAND_DESCRIPTION ||
-  "Fast, secure MLBB top-ups with instant delivery.";
+
+  "Fast, secure MLBB top-ups with instant delivery and 24×7 support — recharge diamonds in seconds.";
 
 const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
 const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_URL;
-const YOUTUBE_URL = process.env.NEXT_PUBLIC_YOUTUBE_URL;
 
-const TRUSTPILOT_URL =
-  process.env.NEXT_PUBLIC_TRUSTPILOT_URL ||
-  "https://www.trustpilot.com/evaluate/meowjiofficial.com";
+
 
 const MADE_BY_NAME = process.env.NEXT_PUBLIC_MADE_BY_NAME || "TK";
 const MADE_BY_URL = process.env.NEXT_PUBLIC_MADE_BY_URL || "https://wa.me/9178521537";
@@ -68,20 +63,12 @@ const FOOTER_LINKS = [
 const SOCIALS = [
   { label: "Instagram", href: INSTAGRAM_URL, icon: FiInstagram },
   { label: "WhatsApp", href: WHATSAPP_URL, icon: FiMessageSquare },
-  { label: "YouTube", href: YOUTUBE_URL, icon: FiYoutube },
 ];
 
 /* ===================== COMPONENT ===================== */
 
 export default function Footer() {
-  const [accentColor, setAccentColor] = useState("#000000");
 
-  useEffect(() => {
-    const color = getComputedStyle(document.documentElement)
-      .getPropertyValue("--accent")
-      .trim();
-    if (color) setAccentColor(color);
-  }, []);
 
   return (
     <footer className="bg-black/40 backdrop-blur-3xl border-t border-white/5 relative overflow-hidden">
@@ -102,22 +89,7 @@ export default function Footer() {
               {BRAND.description}
             </p>
 
-            {/* TRUSTPILOT QR */}
-            <div className="flex items-center gap-3 mt-4">
-              <div className="bg-white p-1.5 rounded-lg shadow-sm border border-[var(--border)]">
-                <QRCodeCanvas
-                  value={TRUSTPILOT_URL}
-                  size={48}
-                  bgColor="#ffffff"
-                  fgColor={accentColor}
-                  level="H"
-                />
-              </div>
-              <div className="flex flex-col text-[10px]">
-                <span className="font-semibold text-[var(--foreground)]">Trustpilot</span>
-                <span className="text-[var(--muted)]">Scan to review</span>
-              </div>
-            </div>
+
           </div>
 
           {/* DYNAMIC SECTIONS - SIDE BY SIDE */}

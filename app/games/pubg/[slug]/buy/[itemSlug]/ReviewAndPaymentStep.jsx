@@ -33,8 +33,8 @@ export default function ReviewAndPaymentStep({
   // Generate UPI QR
   const handleUPI = async () => {
     setPaymentMethod("upi");
-    const upiId = "meowji@upi";
-    const upiString = `upi://pay?pa=${upiId}&pn=Meowji&am=${totalPrice}&cu=INR`;
+    const upiId = "bdcoins@upi"; // Fallback or dynamic
+    const upiString = `upi://pay?pa=${upiId}&pn=Bdcoins&am=${totalPrice}&cu=INR`;
     const qr = await QRCode.toDataURL(upiString);
     setUpiQR(qr);
   };

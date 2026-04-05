@@ -304,7 +304,7 @@ export default function Maintenance() {
                                     transition={{ duration: 3, repeat: Infinity }}
                                     className="mt-10 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-600"
                                 >
-                                    Meowji • 2026
+                                    {process.env.NEXT_PUBLIC_BRAND_NAME} • 2026
                                 </motion.p>
                             </div>
                         </div>

@@ -132,15 +132,15 @@ export default function Header() {
         )}
       </AnimatePresence>
 
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 sm:px-6 h-14">
+      <div className="max-w-[1440px] mx-auto flex items-center justify-between px-4 sm:px-8 h-14">
 
         {/* LOGO SECTION */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center">
           <Link href="/" className="relative group flex items-center">
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="relative w-8 h-8 flex items-center justify-center transition-all duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+              className="relative w-20 h-10 flex items-center justify-center transition-all duration-300 drop-shadow-[0_0_12px_rgba(255,255,255,0.15)]"
             >
               <Image 
                 src={logo} 
@@ -151,31 +151,31 @@ export default function Header() {
             </motion.div>
             <div className="absolute -inset-2 bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity blur-md" />
           </Link>
-
-          {/* DESKTOP NAV */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {[
-              { name: "Games", href: "/games", icon: FiGrid },
-              { name: "Services", href: "/services", icon: FiLayers },
-              { name: "Regions", href: "/regions", icon: FiGlobe }
-            ].map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="relative flex items-center gap-2 px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors group"
-              >
-                <item.icon className="text-lg opacity-70 group-hover:opacity-100 group-hover:text-[var(--accent)] transition-all" />
-                <span>{item.name}</span>
-                <motion.span
-                  className="absolute bottom-0 left-4 right-4 h-0.5 bg-[var(--accent)] rounded-full origin-left opacity-0 group-hover:opacity-100"
-                  initial={{ scaleX: 0 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              </Link>
-            ))}
-          </nav>
         </div>
+
+        {/* DESKTOP NAV - CENTERED */}
+        <nav className="hidden lg:flex items-center justify-center flex-1 gap-6">
+          {[
+            { name: "Games", href: "/games", icon: FiGrid },
+            { name: "Services", href: "/services", icon: FiLayers },
+            { name: "Regions", href: "/regions", icon: FiGlobe }
+          ].map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="relative flex items-center gap-2 px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors group"
+            >
+              <item.icon className="text-lg opacity-70 group-hover:opacity-100 group-hover:text-[var(--accent)] transition-all" />
+              <span>{item.name}</span>
+              <motion.span
+                className="absolute bottom-0 left-4 right-4 h-0.5 bg-[var(--accent)] rounded-full origin-left opacity-0 group-hover:opacity-100"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              />
+            </Link>
+          ))}
+        </nav>
 
         {/* ACTIONS SECTION */}
         <div className="flex items-center gap-2 sm:gap-3" ref={dropdownRef}>

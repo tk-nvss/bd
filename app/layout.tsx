@@ -12,8 +12,8 @@ import { FEATURE_FLAGS } from "@/lib/config";
 
 
 export const metadata: Metadata = {
-  title: "Meowji Official – MLBB Diamond Top Up | Instant & Secure",
-  description: "Meowji is a fast and secure Mobile Legends (MLBB) diamond top-up platform. Instant delivery, safe payments, and 24/7 automated service.",
+  title: "Bdcoins Official – MLBB Diamond Top Up | Instant & Secure",
+  description: "Bdcoins is a fast and secure Mobile Legends (MLBB) diamond top-up platform. Instant delivery, safe payments, and 24/7 automated service.",
 
 };
 

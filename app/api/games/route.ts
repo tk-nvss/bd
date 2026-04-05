@@ -118,20 +118,20 @@ export async function GET() {
       ...(data?.data?.games || [])
         .filter((game: any) => ALLOWED_SLUGS.includes(game.gameSlug))
         .map(normalizeGame),
-      {
-        gameName: "BGMI",
-        gameSlug: "bgmi-manual",
-        gameFrom: "Krafton",
-        gameImageId: {
-          image: "/game-assets/bgmi-logo.webp",
-        },
-        gameAvailablity: true,
-        tagId: {
-          tagName: "auto",
-          tagColor: "#fff",
-          tagBackground: "linear-gradient(90deg, #ff8c00, #ff4500)",
-        },
-      },
+      // {
+      //   gameName: "BGMI",
+      //   gameSlug: "bgmi-manual",
+      //   gameFrom: "Krafton",
+      //   gameImageId: {
+      //     image: "/game-assets/bgmi-logo.webp",
+      //   },
+      //   gameAvailablity: true,
+      //   tagId: {
+      //     tagName: "auto",
+      //     tagColor: "#fff",
+      //     tagBackground: "linear-gradient(90deg, #ff8c00, #ff4500)",
+      //   },
+      // },
     ];
 
     /* ================= FILTER CATEGORY GAMES ================= */

@@ -159,7 +159,7 @@ export default function SettingsTab() {
 
             {/* Footer Info */}
             <p className="text-center text-[10px] uppercase tracking-widest text-[var(--muted)] opacity-50">
-                System Config • Meowji Control Center
+                System Config • {process.env.NEXT_PUBLIC_BRAND_NAME || "Bdcoins"} Control Center
             </p>
         </div>
     );

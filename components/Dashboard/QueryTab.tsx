@@ -48,7 +48,7 @@ const SUPPORT_CONFIG = {
       {
         id: "whatsapp",
         title: "Community",
-        value: process.env.NEXT_PUBLIC_SUPPORT_WHATSAPP_LABEL,
+        value: "Join Support Group",
         href: process.env.NEXT_PUBLIC_SUPPORT_WHATSAPP_URL,
         icon: "whatsapp",
         color: "green",

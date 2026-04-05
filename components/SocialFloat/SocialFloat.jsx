@@ -16,23 +16,16 @@ const socialLinks = [
   {
     name: "WhatsApp",
     icon: FaWhatsapp,
-    url: "https://wa.me/919366077306",
+    url: process.env.NEXT_PUBLIC_WHATSAPP_URL || "https://wa.me/919366077306",
     color: "hover:bg-green-500 hover:text-white",
     bgGradient: "from-green-400 to-green-600",
   },
   {
     name: "Instagram",
     icon: FaInstagram,
-    url: "https://www.instagram.com/meowjiofficial.mlbb?igsh=a3ZnOXBkNmY2ZDQ0",
+    url: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/mlbb",
     color: "hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-500 hover:text-white",
     bgGradient: "from-purple-500 to-pink-500",
-  },
-  {
-    name: "YouTube",
-    icon: FaYoutube,
-    url: "https://www.youtube.com/@whoisfinalboss",
-    color: "hover:bg-red-600 hover:text-white",
-    bgGradient: "from-red-500 to-red-700",
   },
 ];
 
@@ -91,7 +84,7 @@ export default function SocialFloat() {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "Meowji Official",
+          title: (process.env.NEXT_PUBLIC_BRAND_NAME || "Bdcoins") + " Official",
           text: "Check out this awesome site!",
           url: window.location.href,
         });
