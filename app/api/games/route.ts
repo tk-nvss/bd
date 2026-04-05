@@ -1,0 +1,227 @@
+import { NextResponse } from "next/server";
+
+/* ================= IMAGES ================= */
+const MLBB_MAIN_IMAGE = "/game-assets/india-mlbb.jpg";
+const MLBB_SMALL_IMAGE = "/game-assets/mlbb-small.jpg";
+const MLBB_SG_MY_IMAGE = "/game-assets/allregion.jpg";
+
+/* ================= OTT SECTION ================= */
+const OTTS = [
+  {
+    name: "YouTube Premium",
+    slug: "youtube-premium",
+    image: "/ott/youtube.webp",
+    category: "OTT",
+    available: true,
+  },
+  {
+    name: "Netflix",
+    slug: "netflix",
+    image: "/ott/netflix.webp",
+    category: "OTT",
+    available: true,
+  },
+];
+/* ================= MEMBERSHIP SECTION ================= */
+const MEMBERSHIPS = [
+  {
+    name: "Silver Membership",
+    slug: "silver-membership",
+    image: "/membership/silver-m.png",
+    type: "silver",
+    category: "Membership",
+    available: true,
+  },
+  {
+    name: "Reseller Membership",
+    slug: "reseller-membership",
+    image: "/membership/reseller-m.png",
+    type: "reseller",
+    category: "Membership",
+    available: true,
+  },
+];
+
+
+/* ================= API ================= */
+export async function GET() {
+  try {
+    const response = await fetch("https://game-off-ten.vercel.app/api/v1/game", {
+      method: "GET",
+      headers: {
+        "x-api-key": process.env.API_SECRET_KEY!,
+      },
+      cache: "no-store",
+    });
+
+    const data = await response.json();
+
+    /* ================= NORMALIZE GAME ================= */
+    const normalizeGame = (game: any) => {
+      let updatedGame = { ...game };
+
+      // Rename MLBB SMALL/PHP → MLBB SMALL
+      if (updatedGame.gameName === "MLBB SMALL/PHP") {
+        updatedGame.gameName = "MLBB SMALL";
+      }
+
+      // Fix wrong publisher spelling
+      if (updatedGame.gameFrom === "Moneyton") {
+        updatedGame.gameFrom = "Moonton";
+      }
+
+      // Replace Mobile Legends main image
+      if (updatedGame.gameSlug === "mobile-legends988" || updatedGame.gameSlug === "india-mlbb") {
+        updatedGame.gameImageId = {
+          ...updatedGame.gameImageId,
+          image: MLBB_MAIN_IMAGE,
+        };
+      }
+
+      // Replace SG/MY MLBB image
+      if (updatedGame.gameSlug === "sgmy-mlbb893") {
+        updatedGame.gameImageId = {
+          ...updatedGame.gameImageId,
+          image: MLBB_SG_MY_IMAGE,
+        };
+      }
+
+      // Replace MLBB SMALL image
+      if (updatedGame.gameName === "MLBB SMALL") {
+        updatedGame.gameImageId = {
+          ...updatedGame.gameImageId,
+          image: MLBB_SMALL_IMAGE,
+        };
+      }
+
+      return updatedGame;
+    };
+
+    /* ================= ALLOWED SLUGS ================= */
+    const ALLOWED_SLUGS = [
+      "mobile-legends988",
+      "mlbb-double332",
+      // "sgmy-mlbb893",
+      "magic-chess-gogo-india924",
+      "mlbb-indo42",
+      // "mlbb-russia953",
+      // "pubg-mobile138",
+      // "genshin-impact742",
+      // "honor-of-kings57",
+      "wuthering-of-waves464",
+      "where-winds-meet280",
+      "mlbb-smallphp980",
+      "weeklymonthly-bundle931"
+    ];
+
+    const filteredGames = [
+      ...(data?.data?.games || [])
+        .filter((game: any) => ALLOWED_SLUGS.includes(game.gameSlug))
+        .map(normalizeGame),
+      {
+        gameName: "BGMI",
+        gameSlug: "bgmi-manual",
+        gameFrom: "Krafton",
+        gameImageId: {
+          image: "/game-assets/bgmi-logo.webp",
+        },
+        gameAvailablity: true,
+        tagId: {
+          tagName: "auto",
+          tagColor: "#fff",
+          tagBackground: "linear-gradient(90deg, #ff8c00, #ff4500)",
+        },
+      },
+    ];
+
+    /* ================= FILTER CATEGORY GAMES ================= */
+    const filteredCategories =
+      data?.data?.category?.map((cat: any) => ({
+        ...cat,
+        gameId:
+          cat.gameId
+            ?.filter((game: any) => ALLOWED_SLUGS.includes(game.gameSlug))
+            ?.map(normalizeGame) || [],
+      })) || [];
+
+    /* ================= EXTRA SECTIONS ================= */
+
+    // Featured games
+    const featuredGames = filteredGames.filter((g: any) =>
+      ["mobile-legends988", "pubg-mobile138", "genshin-impact742"].includes(
+        g.gameSlug
+      )
+    );
+
+    // MLBB family
+    const mlbbVariants = filteredGames.filter(
+      (g: any) =>
+        g.gameSlug.includes("mlbb") ||
+        g.gameName.toLowerCase().includes("mlbb")
+    );
+
+    // Available only
+    const availableGames = filteredGames.filter(
+      (g: any) => g.gameAvailablity === true
+    );
+
+    // Group by publisher
+    const publishers = filteredGames.reduce((acc: any, game: any) => {
+      const key = game.gameFrom || "Unknown";
+      acc[key] = acc[key] || [];
+      acc[key].push(game);
+      return acc;
+    }, {});
+
+    // Group by region tag
+    const regionalGames = filteredGames.reduce((acc: any, game: any) => {
+      const region = game.tagId?.tagName || "Global";
+      acc[region] = acc[region] || [];
+      acc[region].push(game);
+      return acc;
+    }, {});
+
+    /* ================= RESPONSE ================= */
+    return NextResponse.json({
+      ...data,
+      data: {
+        ...data.data,
+
+        games: filteredGames,
+        category: filteredCategories,
+        totalGames: filteredGames.length,
+
+        // 🔥 GAME SECTIONS
+        featuredGames,
+        mlbbVariants,
+        availableGames,
+        publishers,
+        regionalGames,
+
+        // 🔥 OTT SECTION
+        // otts: {
+        //   title: "OTT & Social Subscriptions",
+        //   items: OTTS.filter((o) => o.available),
+        //   total: OTTS.filter((o) => o.available).length,
+        // },
+        // 🔥 MEMBERSHIP SECTION
+        // memberships: {
+        //   title: "Memberships & Passes",
+        //   items: MEMBERSHIPS.filter((m) => m.available),
+        //   total: MEMBERSHIPS.filter((m) => m.available).length,
+        // },
+
+      },
+    });
+  } catch (error) {
+    console.error("GAME API ERROR:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to fetch game list",
+      },
+      { status: 500 }
+    );
+  }
+}
