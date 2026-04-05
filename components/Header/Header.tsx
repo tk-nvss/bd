@@ -137,14 +137,19 @@ export default function Header() {
         {/* LOGO SECTION */}
         <div className="flex items-center gap-4">
           <Link href="/" className="relative group flex items-center">
-            <motion.span
-              whileHover={{ scale: 1.1, rotate: -2 }}
-              whileTap={{ scale: 0.9 }}
-              className="text-3xl font-black italic tracking-tighter uppercase text-white group-hover:text-red-600 transition-all duration-300 drop-shadow-[0_0_10px_rgba(255,0,0,0.3)]"
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative w-8 h-8 flex items-center justify-center transition-all duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
             >
-              TK
-            </motion.span>
-            <div className="absolute -inset-2 bg-red-600/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity blur-md" />
+              <Image 
+                src={logo} 
+                alt="Logo" 
+                fill 
+                className="object-contain filter group-hover:brightness-125 transition-all"
+              />
+            </motion.div>
+            <div className="absolute -inset-2 bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity blur-md" />
           </Link>
 
           {/* DESKTOP NAV */}

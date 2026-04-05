@@ -5,6 +5,8 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { motion, AnimatePresence } from "framer-motion";
 import { RiShieldKeyholeFill, RiLockPasswordLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
+import Image from "next/image";
+import logo from "@/public/logo.png";
 
 export default function AuthPage() {
   const [loading, setLoading] = useState(false);
@@ -93,17 +95,22 @@ export default function AuthPage() {
         
         <div className="p-8 md:p-10 flex flex-col items-center text-center">
 
-          {/* Stylized 'TK' Logo Replacement */}
+          {/* Logo Heading Placement */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="mb-6 relative flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 border border-white/10 shadow-inner"
+            className="mb-8 relative flex items-center justify-center w-20 h-20 rounded-2xl bg-white/5 border border-white/10 shadow-inner group overflow-hidden"
           >
-            <span className="text-3xl font-black tracking-tighter text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
-              TK
-            </span>
-            <div className="absolute -inset-2 bg-white/10 blur-xl rounded-full opacity-50" />
+            <div className="relative w-12 h-12">
+              <Image 
+                src={logo} 
+                alt="Logo" 
+                fill 
+                className="object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+              />
+            </div>
+            <div className="absolute -inset-4 bg-white/10 blur-xl rounded-full opacity-30 group-hover:opacity-50 transition-opacity" />
           </motion.div>
 
           {/* Texts */}
