@@ -5,21 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronDown, FiMoon, FiSun, FiActivity, FiDroplet, FiZap, FiTarget, FiCommand, FiGrid } from "react-icons/fi";
 
 const themes = [
-  { id: "light", icon: <FiSun />, label: "Light", color: "#f59e0b" },
-  { id: "dark", icon: <FiMoon />, label: "Dark", color: "#6366f1" },
-  { id: "cyber", icon: <FiZap />, label: "Cyber", color: "#00ffff" },
-  { id: "sakura", icon: <FiActivity />, label: "Sakura", color: "#ff4d94" },
-  { id: "violet", icon: <FiDroplet />, label: "Violet", color: "#a855f7" },
-  { id: "midnight", icon: <FiActivity />, label: "Midnight", color: "#8b5cf6" },
-  { id: "ocean", icon: <FiGrid />, label: "Ocean", color: "#0ea5e9" },
-  { id: "forest", icon: <FiTarget />, label: "Forest", color: "#22c55e" },
-  { id: "crimson", icon: <FiCommand />, label: "Crimson", color: "#dc2626" },
-  { id: "galaxy", icon: <FiActivity />, label: "Galaxy", color: "#6366f1" },
-  { id: "sunset", icon: <FiSun />, label: "Sunset", color: "#f97316" },
-  { id: "ice", icon: <FiDroplet />, label: "Ice", color: "#06b6d4" },
-  { id: "monochrome", icon: <FiGrid />, label: "Monochrome", color: "#404040" },
-  { id: "tropical", icon: <FiDroplet />, label: "Tropical", color: "#14b8a6" },
-  { id: "retro", icon: <FiZap />, label: "Retro", color: "#ff006e" },
+  { id: "dark", icon: <FiMoon />, label: "Slayer", color: "#dc2626" },
+  { id: "midnight", icon: <FiActivity />, label: "Uchiha", color: "#3b82f6" },
+  { id: "light", icon: <FiSun />, label: "Frost", color: "#94a3b8" },
 ];
 
 export default function ThemeToggle() {

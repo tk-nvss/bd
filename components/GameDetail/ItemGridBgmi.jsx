@@ -20,7 +20,7 @@ export default function ItemGridBgmi({
           transition: { staggerChildren: 0.05 }
         }
       }}
-      className="max-w-6xl mx-auto mb-10 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3"
+      className="max-w-6xl mx-auto mb-10 grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2"
     >
       {items.map((item, index) => {
         const isSelected = activeItem?.itemSlug === item.itemSlug;
@@ -47,7 +47,7 @@ export default function ItemGridBgmi({
             className={`
               relative overflow-hidden group
               rounded-lg border transition-all duration-300
-              flex flex-col justify-between min-h-[70px] p-2.5 cursor-pointer
+              flex flex-col justify-between min-h-[60px] p-2 cursor-pointer
               ${isSelected
                 ? "border-[var(--accent)] bg-[var(--accent)]/10 shadow-[0_0_30px_rgba(var(--accent-rgb),0.2)] backdrop-blur-md"
                 : "border-[var(--border)] bg-[var(--card)]/40 hover:border-[var(--accent)]/40 hover:bg-[var(--card)]/60 backdrop-blur-sm"
@@ -96,7 +96,7 @@ export default function ItemGridBgmi({
               <div className="flex flex-col">
                 <div className="flex items-baseline gap-1">
                   <span className="text-[10px] font-medium text-[var(--muted)]">₹</span>
-                  <p className="text-lg font-black text-[var(--foreground)] tracking-tight">
+                  <p className="text-base font-black text-[var(--foreground)] tracking-tight">
                     {item.sellingPrice}
                   </p>
                 </div>

@@ -127,12 +127,12 @@ export default function GamesPage() {
       >
         <Link
           href={disabled ? "#" : `/games/${game.gameSlug}`}
-          className={`group relative flex flex-col items-center p-1 md:p-1.5 rounded-2xl
-          bg-gradient-to-b from-[var(--card)]/80 to-[var(--card)]/40 backdrop-blur-md 
-          border border-[var(--border)]/40 transition-[border-color,box-shadow,transform] duration-300 overflow-hidden
+          className={`group relative flex flex-col items-center p-1 rounded-xl
+          bg-white/5 backdrop-blur-md 
+          border border-white/10 transition-[border-color,box-shadow,transform] duration-300 overflow-hidden
           ${disabled
               ? "opacity-50 grayscale cursor-not-allowed"
-              : "hover:border-[var(--accent)]/60 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]"
+              : "hover:border-red-600/60 hover:shadow-[0_15px_30px_-10px_rgba(0,0,0,0.5)]"
             }`}
         >
           {/* IMAGE WRAPPER */}
@@ -175,9 +175,9 @@ export default function GamesPage() {
           </div>
 
           {/* INFO SECTION */}
-          <div className="w-full mt-3 px-1 space-y-0.5 pb-1">
-            <h3 className="text-[11px] md:text-[13px] font-black text-[var(--foreground)] truncate 
-                         group-hover:text-[var(--accent)] transition-colors uppercase tracking-tight">
+          <div className="w-full mt-2 px-1 space-y-0.5 pb-1">
+            <h3 className="text-[10px] md:text-[12px] font-black text-white truncate 
+                         group-hover:text-red-500 transition-colors uppercase tracking-tight">
               {game.gameName}
             </h3>
             {game.gameFrom && (
@@ -198,40 +198,39 @@ export default function GamesPage() {
 
   const SectionHeader = ({ title, count, icon: Icon }: any) => (
     <div className="flex items-center gap-4 mb-8 px-1">
-      <div className="relative group">
-        <div className="absolute inset-0 bg-[var(--accent)]/30 blur-xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
-        <div className="relative p-2.5 rounded-xl bg-[var(--accent)] text-black shadow-[0_0_20px_rgba(var(--accent-rgb),0.4)]">
-          <Icon size={22} />
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <h2 className="text-lg md:text-2xl font-black text-[var(--foreground)] tracking-[-0.05em] uppercase italic leading-none">
-          {title}
+      {/* LEFT LINE */}
+      <div className="flex-1 h-[1px] bg-gradient-to-l from-white/10 via-white/5 to-transparent mr-4 opacity-40" />
+
+      <div className="flex flex-col items-center">
+        <h2 className="text-2xl md:text-5xl font-black tracking-tighter uppercase italic leading-none flex items-center gap-3 drop-shadow-[0_0_15px_rgba(255,0,0,0.3)]">
+          <span className="text-white">SELECT</span>
+          <span className="text-red-600">GAME</span>
         </h2>
+
         {count !== undefined && (
-          <div className="flex items-center gap-2 mt-1.5">
-            <div className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-            <p className="text-[10px] text-[var(--muted)] font-black uppercase tracking-[0.25em]">
+          <div className="flex items-center gap-2 mt-3">
+            <div className="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse" />
+            <p className="text-[10px] text-[var(--muted)] font-black uppercase tracking-[0.3em]">
               {count} Units Detected
             </p>
           </div>
         )}
       </div>
+
+      {/* RIGHT LINE */}
       <div className="flex-1 h-[1px] bg-gradient-to-r from-[var(--border)] via-[var(--border)]/20 to-transparent ml-6 opacity-40" />
     </div>
   );
 
   return (
-    <section className="min-h-screen bg-[var(--background)] relative overflow-hidden">
+    <section className="min-h-screen bg-transparent relative overflow-hidden">
       {/* GLOBAL GRID OVERLAY */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none -z-10" />
 
-      {/* AMBIENT EFFECTS */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[var(--accent)]/10 rounded-full blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[var(--accent)]/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+      {/* AMBIENT EFFECTS REMOVED TO SHOW BODY BACKGROUND */}
 
       {/* ================= FILTER BAR ================= */}
-      <div className="sticky top-0 md:top-[64px] z-40 bg-[var(--background)]/60 backdrop-blur-2xl border-b border-[var(--border)]/50">
+      <div className="sticky top-0 md:top-[64px] z-40 bg-black/40 backdrop-blur-3xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 py-5 flex items-center gap-4">
 
           {/* SEARCH */}
@@ -243,10 +242,10 @@ export default function GamesPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="COMMAND SEARCH..."
-              className="w-full h-12 pl-12 pr-12 rounded-2xl border border-[var(--border)]/50 
-                       bg-[var(--card)]/40 text-xs font-black tracking-widest outline-none transition-all
-                       focus:border-[var(--accent)]/50 focus:ring-4 focus:ring-[var(--accent)]/5 uppercase
-                       placeholder:text-[var(--muted)]/40"
+              className="w-full h-12 pl-12 pr-12 rounded-2xl border border-white/10 
+                       bg-white/5 backdrop-blur-xl text-xs font-black tracking-widest outline-none transition-all
+                       focus:border-red-600/50 focus:ring-4 focus:ring-red-600/5 uppercase
+                       placeholder:text-white/20"
             />
             <AnimatePresence>
               {searchQuery && (
@@ -268,14 +267,13 @@ export default function GamesPage() {
             <button
               onClick={() => setShowFilter(true)}
               className="relative flex items-center justify-center gap-3 h-12 px-6 rounded-2xl 
-                       bg-white text-black font-black text-xs uppercase tracking-widest
-                       hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all
-                       hover:scale-105 active:scale-95 shadow-xl"
+                       bg-white/10 backdrop-blur-xl border border-white/10 text-white font-black text-xs uppercase tracking-widest
+                       hover:bg-white/20 transition-all hover:scale-105 active:scale-95 shadow-xl"
             >
               <FiFilter size={20} />
               <span className="hidden sm:inline">Module Filter</span>
               {activeFilterCount > 0 && (
-                <span className="absolute -top-2 -right-2 min-w-[24px] h-[24px] flex items-center justify-center text-[10px] rounded-full bg-[var(--accent)] text-black font-black border-2 border-white shadow-lg">
+                <span className="absolute -top-2 -right-2 min-w-[24px] h-[24px] flex items-center justify-center text-[10px] rounded-full bg-red-600 text-white font-black border-2 border-white/20 shadow-lg">
                   {activeFilterCount}
                 </span>
               )}
@@ -294,11 +292,11 @@ export default function GamesPage() {
           viewport={{ once: true }}
         >
           <SectionHeader
-            title="Active Products"
+            title="SELECT GAME"
             count={processGames(games).length}
             icon={FiBox}
           />
-          <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4 lg:gap-6">
+          <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3 lg:gap-4">
             {processGames(games).map((game: any) => (
               <GameCard key={game.gameId} game={game} />
             ))}
@@ -313,7 +311,7 @@ export default function GamesPage() {
             viewport={{ once: true }}
           >
             <SectionHeader title={otts.title} icon={FiZap} />
-            <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4 lg:gap-6">
+            <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3 lg:gap-4">
               {otts.items.map((ott: any) => (
                 <motion.div
                   key={ott.slug}
@@ -321,16 +319,16 @@ export default function GamesPage() {
                 >
                   <Link
                     href={`/games/ott/${ott.slug}`}
-                    className="group relative flex flex-col p-1 rounded-xl bg-[var(--card)]/60 backdrop-blur-md border border-[var(--border)]/40 transition-[border-color,box-shadow,transform] duration-300 overflow-hidden"
+                    className="group relative flex flex-col p-1 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 transition-[border-color,box-shadow,transform] duration-300 overflow-hidden"
                   >
                     <div className="relative w-full aspect-[3/4] overflow-hidden rounded-lg">
                       <Image src={ott.image} alt={ott.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
                       <div className="absolute bottom-4 left-4 right-4">
-                        <p className="text-xs md:text-sm font-black text-white italic truncate uppercase tracking-tight">
+                        <p className="text-[10px] md:text-[12px] font-black text-white italic truncate uppercase tracking-tight">
                           {ott.name}
                         </p>
-                        <p className="text-[8px] md:text-[9px] text-[var(--accent)] font-black uppercase tracking-[0.2em] mt-0.5">
+                        <p className="text-[7px] md:text-[8px] text-red-500 font-black uppercase tracking-[0.2em] mt-0.5">
                           {ott.category}
                         </p>
                       </div>
@@ -350,7 +348,7 @@ export default function GamesPage() {
             viewport={{ once: true }}
           >
             <SectionHeader title={memberships.title} icon={FiActivity} />
-            <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4 lg:gap-6">
+            <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3 lg:gap-4">
               {memberships.items.map((plan: any) => (
                 <motion.div
                   key={plan.slug}

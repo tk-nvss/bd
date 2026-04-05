@@ -81,10 +81,10 @@ export default function BuyFlowPage() {
 
   return (
     <AuthGuard>
-      <section className="px-6 py-8 max-w-3xl mx-auto">
+      <section className="px-6 py-8 max-w-3xl mx-auto bg-transparent">
         {/* ================= SELECTED ITEM ================= */}
         {itemName && (
-          <div className="flex items-center gap-4 mb-6 p-4 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+          <div className="flex items-center gap-4 mb-6 p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
             {itemImage && (
               <img
                 src={itemImage}

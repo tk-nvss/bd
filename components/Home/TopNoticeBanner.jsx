@@ -76,7 +76,7 @@ export default function TopNoticeBanner() {
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          className="relative z-[40] bg-[var(--card)] border-b border-[var(--border)] overflow-hidden"
+          className="relative z-[40] bg-black/20 backdrop-blur-md border-b border-white/5 overflow-hidden"
         >
           {/* BACKGROUND GLOW */}
           <div className="absolute inset-0 bg-linear-to-r from-[var(--accent)]/5 via-transparent to-[var(--accent)]/5 pointer-events-none" />

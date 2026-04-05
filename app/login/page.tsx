@@ -1,18 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google";
-import Image from "next/image";
-import logo from "@/public/logo.png";
+import { useGoogleLogin } from "@react-oauth/google";
 import { motion, AnimatePresence } from "framer-motion";
 import { RiShieldKeyholeFill, RiLockPasswordLine } from "react-icons/ri";
+import { FcGoogle } from "react-icons/fc";
 
 export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleGoogleLogin = async (credential: string) => {
+  const handleGoogleLogin = async (accessToken: string) => {
     setLoading(true);
     setError("");
     setSuccess("");
@@ -21,7 +20,7 @@ export default function AuthPage() {
       const res = await fetch("/api/auth/google", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: credential }),
+        body: JSON.stringify({ accessToken }),
       });
 
       const data = await res.json();
@@ -45,161 +44,176 @@ export default function AuthPage() {
     }
   };
 
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => handleGoogleLogin(tokenResponse.access_token),
+    onError: () => setError("Authorization Failed"),
+  });
+
   return (
-    <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[var(--background)] px-4">
-      {/* ================= ANIMATED BACKGROUND ================= */}
-      <div className="absolute inset-0 z-0">
-        {/* Deep mesh gradient */}
+    <section className="relative min-h-[calc(100vh-64px)] w-full flex items-center justify-center overflow-hidden px-4 py-12">
+      {/* ================= PREMIUM BACKGROUND ELEMENTS ================= */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 backdrop-blur-[2px]" />
+        
+        {/* Dynamic Glowing Orbs */}
         <motion.div
           animate={{
-            scale: [1, 1.1, 1],
-            rotate: [0, 5, -5, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-[var(--accent)]/5 blur-[120px]"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            x: [0, 50, 0],
+            scale: [1, 1.15, 1],
+            opacity: [0.1, 0.25, 0.1],
           }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[40%] -right-[10%] w-[60vw] h-[60vw] rounded-full bg-purple-500/5 blur-[120px]"
+          className="absolute top-1/4 -left-40 w-[50rem] h-[50rem] rounded-full bg-white/5 blur-[140px]"
         />
-
-        {/* Grid Pattern Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <motion.div
+          animate={{
+            scale: [1, 1.25, 1],
+            opacity: [0.1, 0.25, 0.1],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          className="absolute bottom-1/4 -right-40 w-[60rem] h-[60rem] rounded-full bg-[var(--accent)]/5 blur-[160px]"
+        />
       </div>
 
-      {/* ================= LOGIN CARD ================= */}
+      {/* ================= COMPACT LOGIN CARD ================= */}
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="
-          relative z-10 w-full max-w-md
-          rounded-3xl
-          bg-[var(--card)]/80 backdrop-blur-2xl
-          border border-[var(--border)]
-          shadow-2xl shadow-black/40
+          relative z-10 w-full max-w-[380px]
+          rounded-[2.5rem]
+          bg-white/[0.01] backdrop-blur-[40px]
+          border border-white/10
+          shadow-[0_40px_100px_rgba(0,0,0,0.4)]
           overflow-hidden
         "
       >
-        {/* Top Decorative Line */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-50" />
-
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/[0.02] via-transparent to-white/[0.02] pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        
         <div className="p-8 md:p-10 flex flex-col items-center text-center">
 
-          {/* Logo Container */}
+          {/* Stylized 'TK' Logo Replacement */}
           <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="mb-6 relative group"
+            className="mb-6 relative flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 border border-white/10 shadow-inner"
           >
-            <div className="absolute inset-0 bg-[var(--accent)]/20 blur-xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-[var(--background)] to-[var(--card)] border border-[var(--border)] p-4 flex items-center justify-center shadow-lg transform group-hover:scale-105 transition-transform duration-300">
-              <Image
-                src={logo}
-                alt="Meowji Logo"
-                fill
-                className="object-contain p-2"
-              />
-            </div>
+            <span className="text-3xl font-black tracking-tighter text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+              TK
+            </span>
+            <div className="absolute -inset-2 bg-white/10 blur-xl rounded-full opacity-50" />
           </motion.div>
 
           {/* Texts */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="space-y-2 mb-8"
-          >
-            <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-[var(--foreground)] to-[var(--foreground)]/70">
-              Welcome Back
-            </h1>
-            <p className="text-[var(--muted)] text-sm px-4">
-              Access your dashboard, track orders & manage your profile securely.
-            </p>
-          </motion.div>
+          <div className="space-y-2 mb-8">
+            <motion.h1 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-3xl font-black tracking-tight text-white/90"
+            >
+              Sign In
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-white/40 text-xs font-semibold leading-relaxed px-2"
+            >
+              The most secure way to handle your gaming top-ups and rewards.
+            </motion.p>
+          </div>
 
           {/* Actions */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="w-full space-y-6"
-          >
+          <div className="w-full space-y-6">
             {/* Status Messages */}
             <AnimatePresence mode="wait">
               {error && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="bg-red-500/10 border border-red-500/20 text-red-300 text-[10px] uppercase tracking-widest px-4 py-3 rounded-2xl flex items-center gap-3 backdrop-blur-xl"
                 >
-                  <RiLockPasswordLine /> {error}
+                  <RiLockPasswordLine className="text-lg" /> 
+                  <span className="font-bold flex-1 text-center">{error}</span>
                 </motion.div>
               )}
               {success && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="bg-green-500/10 border border-green-500/20 text-green-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="bg-green-500/10 border border-green-500/20 text-green-300 text-[10px] uppercase tracking-widest px-4 py-3 rounded-2xl flex items-center gap-3 backdrop-blur-xl"
                 >
-                  <RiShieldKeyholeFill /> {success}
+                  <RiShieldKeyholeFill className="text-lg" /> 
+                  <span className="font-bold flex-1 text-center">{success}</span>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* Google Button Wrapper - Custom Styling via Container */}
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent)]/0 via-[var(--accent)]/10 to-[var(--accent)]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full" />
-              <div className="flex justify-center transform transition-transform active:scale-95 duration-200">
-                <GoogleLogin
-                  onSuccess={(res) =>
-                    res.credential && handleGoogleLogin(res.credential)
-                  }
-                  onError={() => setError("Authorization Failed")}
-                  theme="filled_black"
-                  size="large"
-                  shape="pill"
-                  width="100%"
-                  text="continue_with"
-                />
-              </div>
-            </div>
+            {/* Custom Google Button - Compact */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="relative group w-full"
+            >
+              <div className="absolute -inset-1 bg-white/5 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-all duration-700" />
+              
+              <button 
+                onClick={() => login()}
+                className="
+                  relative flex items-center justify-center gap-4 w-full h-[56px] 
+                  bg-white/[0.05] hover:bg-white/[0.1]
+                  border border-white/10 hover:border-white/20
+                  rounded-2xl transition-all duration-300
+                  active:scale-[0.98]
+                "
+              >
+                <div className="bg-white p-2 rounded-lg shadow-lg">
+                  <FcGoogle className="text-xl" />
+                </div>
+                <span className="text-white text-sm font-bold tracking-wide">Continue with Google</span>
+              </button>
+            </motion.div>
 
-            {/* Spinner */}
+            {/* Loading Indicator */}
             {loading && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="flex items-center justify-center gap-2 text-xs text-[var(--accent)] font-medium"
+                className="flex items-center justify-center py-2"
               >
-                <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                Verifying Credentials...
+                <div className="w-8 h-8 relative">
+                  <div className="absolute inset-0 border-2 border-white/5 rounded-full" />
+                  <div className="absolute inset-0 border-2 border-t-white/40 rounded-full animate-spin" />
+                </div>
               </motion.div>
             )}
 
+            {/* Footer Divider */}
             <div className="relative py-2">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-[var(--border)]"></div>
+                <div className="w-full h-[1px] bg-white/5"></div>
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-[var(--card)] px-2 text-[var(--muted)]">SECURE LOGIN</span>
+              <div className="relative flex justify-center text-[8px] tracking-[0.4em] uppercase font-black text-white/10">
+                <span className="px-4 bg-transparent backdrop-blur-none">SECURED & CLOUD-LINKED</span>
               </div>
             </div>
-
-            <p className="text-[10px] text-[var(--muted)]/60 text-center max-w-xs mx-auto">
-              By logging in, you agree to our Terms of Service & Privacy Policy.
-              Protected by reCAPTCHA.
-            </p>
-          </motion.div>
+          </div>
         </div>
+        
+        {/* Bottom Laser Line */}
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" />
       </motion.div>
+
+      {/* Background Decorative Branding - Subtle */}
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 select-none opacity-[0.01] pointer-events-none">
+        <h2 className="text-[12vw] font-black tracking-tighter whitespace-nowrap text-white">TK OFFICIAL</h2>
+      </div>
     </section>
   );
 }

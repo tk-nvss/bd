@@ -144,7 +144,7 @@ export default function BuyFlowPage() {
 
   return (
     <AuthGuard>
-      <section className="px-6 py-8 max-w-3xl mx-auto">
+      <section className="px-6 py-8 max-w-3xl mx-auto bg-transparent">
 
         {/* ================= STEP INDICATOR ================= */}
         <div className="relative flex items-center justify-between mb-10">

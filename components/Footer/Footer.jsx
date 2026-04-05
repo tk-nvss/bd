@@ -20,7 +20,7 @@ import {
 
 /* ===================== ENV ===================== */
 
-const BRAND_NAME = "Meowji Official";
+const BRAND_NAME = "TK";
 const BRAND_DESCRIPTION =
   process.env.NEXT_PUBLIC_BRAND_DESCRIPTION ||
   "Fast, secure MLBB top-ups with instant delivery.";
@@ -84,7 +84,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="bg-[var(--background)] border-t border-[var(--border)] relative overflow-hidden">
+    <footer className="bg-black/40 backdrop-blur-3xl border-t border-white/5 relative overflow-hidden">
       {/* Subtle Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--accent)]/5 pointer-events-none" />
 

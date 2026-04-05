@@ -115,8 +115,8 @@ export default function Header() {
       variants={headerVariants}
       className={`fixed top-0 left-0 w-full z-[80] transition-colors duration-500`}
       style={{
-        backgroundColor: scrolled ? "var(--card)" : "transparent",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
+        backgroundColor: scrolled ? "rgba(0, 0, 0, 0.45)" : "transparent",
+        backdropFilter: scrolled ? "blur(32px)" : "none",
         borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
       }}
     >
@@ -136,22 +136,15 @@ export default function Header() {
 
         {/* LOGO SECTION */}
         <div className="flex items-center gap-4">
-          <Link href="/" className="relative group">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="relative z-10"
+          <Link href="/" className="relative group flex items-center">
+            <motion.span
+              whileHover={{ scale: 1.1, rotate: -2 }}
+              whileTap={{ scale: 0.9 }}
+              className="text-3xl font-black italic tracking-tighter uppercase text-white group-hover:text-red-600 transition-all duration-300 drop-shadow-[0_0_10px_rgba(255,0,0,0.3)]"
             >
-              <Image
-                src={logo}
-                alt="Logo"
-                width={100}
-                height={40}
-                priority
-                className="object-contain"
-              />
-            </motion.div>
-            <div className="absolute -inset-2 bg-[var(--accent)]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity blur-md" />
+              TK
+            </motion.span>
+            <div className="absolute -inset-2 bg-red-600/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity blur-md" />
           </Link>
 
           {/* DESKTOP NAV */}

@@ -46,7 +46,7 @@ export default function HeroSection() {
 
       <HomeServices />
       <TrustHighlights />
-      <AboutMewoji />
+      {/* <AboutMewoji /> */}
 
 
     </>

@@ -9,17 +9,24 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 export async function POST(req: Request) {
   try {
     await connectDB();
-    const { token } = await req.json();
+    const { token, accessToken } = await req.json();
 
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
+    let payload: any;
 
-    const payload = ticket.getPayload();
+    if (token) {
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+      payload = ticket.getPayload();
+    } else if (accessToken) {
+      const res = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`);
+      payload = await res.json();
+    }
+
     if (!payload?.email) {
       return Response.json(
-        { success: false, message: "Invalid Google token" },
+        { success: false, message: "Invalid Google token or access expired" },
         { status: 401 }
       );
     }

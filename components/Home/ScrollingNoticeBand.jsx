@@ -5,7 +5,7 @@ import { Sparkles, Zap, ShieldCheck, Bell, MessageSquare } from "lucide-react";
 
 /* ================= NOTICE CONFIG (EDIT HERE) ================= */
 const NOTICE_CONFIG = {
-  brandFallback: "Meowji",
+  brandFallback: "TK",
   items: [
     {
       type: "brand",

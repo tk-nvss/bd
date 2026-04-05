@@ -67,7 +67,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4 bg-[var(--background)] text-[var(--foreground)] relative overflow-hidden">
+    <div className="min-h-screen pt-24 pb-20 px-4 bg-transparent text-[var(--foreground)] relative overflow-hidden">
       {/* BACKGROUND DECORATION */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-[radial-gradient(circle_at_center,var(--accent)_0%,transparent_70%)] opacity-[0.03] pointer-events-none" />
 

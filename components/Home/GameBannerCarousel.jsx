@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import logo from "@/public/logo.png";
 import Loader from "@/components/Loader/Loader";
 
@@ -73,20 +74,26 @@ export default function GameBannerCarousel() {
           />
         </Link>
 
-        {/* OVERLAY */}
-        {/* <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" /> */}
-
-        {/* TEXT */}
-        {banner.bannerTitle && (
-          <div className="absolute left-6 bottom-6 max-w-[75%]">
-            <h2 className="text-lg md:text-2xl font-bold text-white drop-shadow">
-              {banner.bannerTitle}
-            </h2>
-            <p className="text-sm md:text-base text-white/80 mt-1">
-              Tap to explore offers
-            </p>
+        {/* CONTENT OVERLAY */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 md:p-10 pointer-events-none">
+          <div className="space-y-4 max-w-lg pointer-events-auto">
+            {banner.bannerTitle && (
+              <h2 className="text-2xl md:text-5xl font-black text-white italic tracking-tighter uppercase drop-shadow-2xl">
+                {banner.bannerTitle}
+              </h2>
+            )}
+            
+            <Link href={banner.bannerLink || "/games/mlbb"}>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-2 px-6 py-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-xs md:text-sm uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] border border-red-400/20"
+              >
+                RECHARGE NOW
+              </motion.button>
+            </Link>
           </div>
-        )}
+        </div>
 
         {/* LEFT ARROW */}
         {banners.length > 1 && (

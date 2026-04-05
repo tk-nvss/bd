@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300">
+    <main className="min-h-screen bg-transparent text-[var(--foreground)] transition-colors duration-300">
       
       {/* 🌟 Hero Section */}
       <section className="relative text-center py-28 px-6 overflow-hidden border-b border-[var(--border)] bg-gradient-to-b from-[var(--card)] to-transparent">
@@ -89,7 +89,7 @@ export default function AboutPage() {
       </section>
 
       {/* 📣 Follow / Trust Section */}
-      <section className="relative py-24 text-center border-t border-[var(--border)] bg-[var(--background)] overflow-hidden">
+      <section className="relative py-24 text-center border-t border-[var(--border)] bg-transparent overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-1/2 left-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-[var(--accent)] to-purple-700 opacity-10 blur-[180px] animate-pulse -translate-x-1/2 -translate-y-1/2" />
         </div>
