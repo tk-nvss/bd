@@ -21,6 +21,7 @@ import {
   Calendar,
   Smartphone
 } from "lucide-react";
+import { CONFIG } from "@/lib/config";
 
 export default function TransactionsTab() {
   const [transactions, setTransactions] = useState([]);
@@ -215,7 +216,7 @@ export default function TransactionsTab() {
                         </td>
                         <td className="px-6 py-4 text-right">
                           <span className="text-sm font-black text-emerald-500 tracking-tighter tabular-nums">
-                            ₹{t.price}
+                            {CONFIG.CURRENCY_SYMBOL}{t.price}
                           </span>
                         </td>
                       </motion.tr>
@@ -246,7 +247,7 @@ export default function TransactionsTab() {
                         </span>
                         <p className="text-[10px] font-mono text-[var(--muted)]/40 uppercase leading-none">{t.orderId}</p>
                       </div>
-                      <span className="text-sm font-black text-emerald-500 tabular-nums">₹{t.price}</span>
+                      <span className="text-sm font-black text-emerald-500 tabular-nums">{CONFIG.CURRENCY_SYMBOL}{t.price}</span>
                     </div>
 
                     <div className="flex items-center justify-between text-[11px] pt-3 border-t border-[var(--border)]">
@@ -340,7 +341,7 @@ export default function TransactionsTab() {
                 <div className="flex items-center justify-between p-4 rounded-2xl bg-[var(--accent)]/5 border border-[var(--accent)]/10">
                   <div>
                     <p className="text-[9px] font-bold text-[var(--muted)]/60 uppercase tracking-widest mb-0.5">Amount</p>
-                    <span className="text-lg font-black text-emerald-500 tabular-nums">₹{selectedTx.price}</span>
+                    <span className="text-lg font-black text-emerald-500 tabular-nums">{CONFIG.CURRENCY_SYMBOL}{selectedTx.price}</span>
                   </div>
                   {(() => {
                     const meta = statusMeta[selectedTx.status] || statusMeta.pending;

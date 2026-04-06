@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { CONFIG } from "@/lib/config";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
@@ -98,7 +99,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({
             success: true,
-            message: `Successfully verified and added ₹${amount} to user wallet.`,
+            message: `Successfully verified and added ${CONFIG.CURRENCY_SYMBOL}${amount} to user wallet.`,
         });
     } catch (error: any) {
         console.error("Admin Wallet Verify Error:", error);

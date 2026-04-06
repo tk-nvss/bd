@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import AuthGuard from "../../components/AuthGuard";
 import { motion } from "framer-motion";
 import { FiPackage, FiCreditCard, FiSettings, FiMessageCircle, FiZap, FiUser, FiArrowRight, FiActivity } from "react-icons/fi";
+import { CONFIG } from "@/lib/config";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function Dashboard() {
       label: "My Wallet",
       icon: <FiCreditCard />,
       route: "/dashboard/wallet",
-      description: `Wallet: ₹${walletBalance.toFixed(2)}`,
+      description: `Wallet: ${CONFIG.CURRENCY_SYMBOL}${walletBalance.toFixed(2)}`,
       accent: "text-emerald-500",
       bg: "bg-emerald-500/10",
     },
@@ -130,7 +131,7 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <p className="text-[8px] font-black text-[var(--muted)] uppercase tracking-widest leading-none mb-1">My Balance</p>
-                    <p className="text-lg font-black tracking-tighter">₹{walletBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
+                    <p className="text-lg font-black tracking-tighter">{CONFIG.CURRENCY_SYMBOL}{walletBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
                   </div>
                 </div>
                 <button

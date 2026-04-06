@@ -14,6 +14,7 @@ import {
   FiActivity,
   FiZap
 } from "react-icons/fi";
+import { CONFIG } from "@/lib/config";
 import { FaWallet, FaIndianRupeeSign } from "react-icons/fa6";
 
 interface WalletTabProps {
@@ -65,7 +66,7 @@ export default function WalletTab({
 
   const handleProceed = async () => {
     if (!amount || Number(amount) < 1) {
-      setAmountError("Minimum amount is ₹1");
+      setAmountError(`Minimum amount is ${CONFIG.CURRENCY_SYMBOL}1`);
       return;
     }
 
@@ -157,7 +158,7 @@ export default function WalletTab({
                   Available Balance
                 </p>
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-sm font-bold text-[var(--muted)]">₹</span>
+                  <span className="text-sm font-bold text-[var(--muted)]">{CONFIG.CURRENCY_SYMBOL}</span>
                   <span className="text-3xl sm:text-4xl font-black tracking-tight text-[var(--foreground)]">
                     {walletBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
@@ -193,7 +194,7 @@ export default function WalletTab({
                 </div>
 
                 <div className="relative group/input">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-base font-bold text-[var(--muted)] group-focus-within/input:text-[var(--accent)] transition-colors">₹</div>
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-base font-bold text-[var(--muted)] group-focus-within/input:text-[var(--accent)] transition-colors">{CONFIG.CURRENCY_SYMBOL}</div>
                   <input
                     type="number"
                     value={amount}
@@ -220,7 +221,7 @@ export default function WalletTab({
                       className="py-2.5 rounded-xl border border-[var(--border)] bg-[var(--card)]/50 text-[10px] font-bold uppercase
                                  hover:bg-[var(--accent)] hover:text-white transition-all shadow-sm"
                     >
-                      +₹{val}
+                      +{CONFIG.CURRENCY_SYMBOL}{val}
                     </button>
                   ))}
                 </div>
@@ -352,7 +353,7 @@ export default function WalletTab({
                           : "text-red-500"
                           }`}
                       >
-                        {tx.type.includes("add") || tx.type === "deposit" ? "+" : "-"}₹{tx.amount.toFixed(2)}
+                        {tx.type.includes("add") || tx.type === "deposit" ? "+" : "-"}{CONFIG.CURRENCY_SYMBOL}{tx.amount.toFixed(2)}
                       </p>
                       <div className="flex items-center justify-end gap-2 mt-1">
                         {tx.status === "pending" && tx.type === "deposit" && (

@@ -8,6 +8,7 @@ const ThemeToggle = dynamic(() => import("../ThemeToggle/ThemeToggle"), { ssr: t
 import { FiPlus, FiChevronDown, FiUser, FiLayout, FiSettings, FiLifeBuoy, FiLogOut, FiBarChart2, FiHome, FiGrid, FiLayers, FiGlobe } from "react-icons/fi";
 import Image from "next/image";
 import logo from "@/public/logo.png";
+import { CONFIG } from "@/lib/config";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -187,7 +188,7 @@ export default function Header() {
               <div className="w-4 h-4 rounded-full bg-[var(--accent)]/20 flex items-center justify-center">
                 <FiPlus className="text-[var(--accent)] text-[8px]" />
               </div>
-              <span className="text-xs font-bold text-[var(--accent)]">₹{user.wallet?.toFixed(2) || "0.00"}</span>
+              <span className="text-xs font-bold text-[var(--accent)]">{CONFIG.CURRENCY_SYMBOL}{user.wallet?.toFixed(2) || "0.00"}</span>
             </Link>
           )}
 

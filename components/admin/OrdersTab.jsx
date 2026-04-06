@@ -24,6 +24,7 @@ import {
   ShoppingBag,
   Target
 } from "lucide-react";
+import { CONFIG } from "@/lib/config";
 
 export default function OrdersTab() {
   const [orders, setOrders] = useState([]);
@@ -219,9 +220,9 @@ export default function OrdersTab() {
           color="emerald"
         >
           <div className="grid grid-cols-3 gap-2">
-            <StatBox label="1D" value={`₹${stats.revenue1d.toLocaleString()}`} />
-            <StatBox label="7D" value={`₹${stats.revenue7d.toLocaleString()}`} />
-            <StatBox label="30D" value={`₹${stats.revenue30d.toLocaleString()}`} />
+            <StatBox label="1D" value={`${CONFIG.CURRENCY_SYMBOL}${stats.revenue1d.toLocaleString()}`} />
+            <StatBox label="7D" value={`${CONFIG.CURRENCY_SYMBOL}${stats.revenue7d.toLocaleString()}`} />
+            <StatBox label="30D" value={`${CONFIG.CURRENCY_SYMBOL}${stats.revenue30d.toLocaleString()}`} />
           </div>
         </StatGroup>
       </div>
@@ -366,7 +367,7 @@ export default function OrdersTab() {
                         </td>
                         <td className="px-6 py-4">
                           <span className="text-sm font-black text-emerald-500 tabular-nums">
-                            ₹{o.price}
+                            {CONFIG.CURRENCY_SYMBOL}{o.price}
                           </span>
                         </td>
                         <td className="px-6 py-4">
@@ -417,7 +418,7 @@ export default function OrdersTab() {
                           <p className="text-[9px] font-mono text-[var(--muted)]/40 uppercase truncate leading-none mt-0.5">{o.orderId}</p>
                         </div>
                       </div>
-                      <span className="text-sm font-black text-emerald-500 tabular-nums">₹{o.price}</span>
+                      <span className="text-sm font-black text-emerald-500 tabular-nums">{CONFIG.CURRENCY_SYMBOL}{o.price}</span>
                     </div>
 
                     <div className="space-y-3">
@@ -530,7 +531,7 @@ export default function OrdersTab() {
                 <div className="flex items-center justify-between p-4 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]">
                   <div>
                     <p className="text-[9px] font-bold text-[var(--muted)]/60 uppercase tracking-widest mb-0.5">Amount</p>
-                    <span className="text-lg font-black text-emerald-500 tabular-nums">₹{selectedOrder.price}</span>
+                    <span className="text-lg font-black text-emerald-500 tabular-nums">{CONFIG.CURRENCY_SYMBOL}{selectedOrder.price}</span>
                   </div>
                   <div className="flex flex-col gap-2">
                     <StatusDropdown

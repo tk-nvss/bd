@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 import { FaTrophy } from "react-icons/fa";
 import AuthGuard from "@/components/AuthGuard";
+import { CONFIG } from "@/lib/config";
 
 export default function LeaderboardPage() {
   const [data, setData] = useState([]);
@@ -200,7 +201,7 @@ export default function LeaderboardPage() {
 
                         <div className="flex items-center gap-12">
                           <div className="w-20 text-right">
-                            <span className="text-sm font-bold text-[var(--accent)] tracking-tighter">₹{item.totalSpent}</span>
+                            <span className="text-sm font-bold text-[var(--accent)] tracking-tighter">{CONFIG.CURRENCY_SYMBOL}{item.totalSpent}</span>
                           </div>
                         </div>
                       </motion.div>
@@ -258,7 +259,7 @@ function PodiumCard({ user, rank, style, isMain = false }) {
       <div className="relative z-10 w-full flex flex-col items-center gap-1 sm:gap-2 mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-white/5">
         <div className="flex flex-col items-center">
           <span className="text-[6px] sm:text-[8px] font-black text-[var(--muted)] uppercase">Total Spent</span>
-          <span className={`text-[10px] sm:text-sm font-black tracking-tighter ${style.color}`}>₹{user.totalSpent}</span>
+          <span className={`text-[10px] sm:text-sm font-black tracking-tighter ${style.color}`}>{CONFIG.CURRENCY_SYMBOL}{user.totalSpent}</span>
         </div>
       </div>
 

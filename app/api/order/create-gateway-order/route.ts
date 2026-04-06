@@ -237,7 +237,7 @@ export async function POST(req: Request) {
 
     /* ---------- ORDER ID ---------- */
     const orderId =
-      "MEOWTK" +
+      "BDTK" +
       Date.now().toString(36) +
       crypto.randomBytes(8).toString("hex");
 

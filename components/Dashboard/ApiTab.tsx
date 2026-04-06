@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiZap, FiPlus, FiCheckCircle, FiArrowRight, FiCopy } from "react-icons/fi";
+import { CONFIG } from "@/lib/config";
 
 export default function ApiTab() {
     const [apiKey, setApiKey] = useState<string | null>(null);
@@ -237,7 +238,7 @@ export default function ApiTab() {
                                                 <p className="text-[9px] text-[var(--muted)] font-bold tracking-wider">ID: {order.playerId}</p>
                                             </div>
                                             <div className="text-right">
-                                                <p className="text-xs font-black text-[var(--accent)]">₹{order.price}</p>
+                                                <p className="text-xs font-black text-[var(--accent)]">{CONFIG.CURRENCY_SYMBOL}{order.price}</p>
                                                 <p className={`text-[8px] font-black uppercase tracking-widest ${order.status === 'success' ? 'text-green-500' : 'text-yellow-500'}`}>
                                                     {order.status}
                                                 </p>

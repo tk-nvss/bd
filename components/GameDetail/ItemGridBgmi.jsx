@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { CONFIG } from "@/lib/config";
 import { FiCheck } from "react-icons/fi";
 
 export default function ItemGridBgmi({
@@ -95,7 +96,7 @@ export default function ItemGridBgmi({
             <div className="relative z-10 mt-auto pt-2">
               <div className="flex flex-col">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-[10px] font-medium text-[var(--muted)]">₹</span>
+                  <span className="text-[10px] font-medium text-[var(--muted)]">{CONFIG.CURRENCY_SYMBOL}</span>
                   <p className="text-base font-black text-[var(--foreground)] tracking-tight">
                     {item.sellingPrice}
                   </p>

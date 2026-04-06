@@ -1,6 +1,6 @@
 "use client";
 
-const BRAND = process.env.NEXT_PUBLIC_BRAND_NAME || "Meow Ji";
+const BRAND = process.env.NEXT_PUBLIC_BRAND_NAME || "bdcoins";
 
 export default function PrivacyPolicy() {
   return (
@@ -48,13 +48,13 @@ export default function PrivacyPolicy() {
         <p className="mb-6 leading-relaxed">
           Your data is used to:
           <br /><br />
-          • Process and deliver game top-ups accurately  
+          • Process and deliver game top-ups accurately
           <br />
-          • Verify transactions and prevent fraud or misuse  
+          • Verify transactions and prevent fraud or misuse
           <br />
-          • Provide customer support and order assistance  
+          • Provide customer support and order assistance
           <br />
-          • Improve platform performance, reliability, and user experience  
+          • Improve platform performance, reliability, and user experience
           <br /><br />
           We do <strong>not</strong> sell, rent, or trade your personal information
           to third parties for marketing purposes.
@@ -67,11 +67,11 @@ export default function PrivacyPolicy() {
         <p className="mb-6 leading-relaxed">
           {BRAND} uses cookies and similar technologies to:
           <br /><br />
-          • Remember user preferences  
+          • Remember user preferences
           <br />
-          • Maintain login sessions  
+          • Maintain login sessions
           <br />
-          • Analyze traffic and platform usage  
+          • Analyze traffic and platform usage
           <br /><br />
           You may disable cookies via your browser settings, but certain features
           of the website may not function properly.
@@ -84,11 +84,11 @@ export default function PrivacyPolicy() {
         <p className="mb-6 leading-relaxed">
           We may use trusted third-party services for:
           <br /><br />
-          • Payment processing  
+          • Payment processing
           <br />
-          • Analytics and performance monitoring  
+          • Analytics and performance monitoring
           <br />
-          • Hosting and content delivery  
+          • Hosting and content delivery
           <br /><br />
           These providers operate under their own privacy policies. We recommend
           reviewing them for additional information on how your data is handled.
@@ -111,11 +111,11 @@ export default function PrivacyPolicy() {
         <p className="mb-6 leading-relaxed">
           You have the right to:
           <br /><br />
-          • Request access to your personal data  
+          • Request access to your personal data
           <br />
-          • Request correction of inaccurate information  
+          • Request correction of inaccurate information
           <br />
-          • Request deletion of your data (subject to legal and transactional requirements)  
+          • Request deletion of your data (subject to legal and transactional requirements)
           <br /><br />
           To exercise these rights, please contact us via our{" "}
           <a href="/contact" className="text-[var(--accent)] hover:underline">

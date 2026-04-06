@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { FiSearch, FiPlus, FiMinus, FiClock, FiUser, FiActivity, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { CONFIG } from "@/lib/config";
 
 export default function WalletTab() {
     const [users, setUsers] = useState([]);
@@ -131,7 +132,7 @@ export default function WalletTab() {
             <div className="p-3 sm:p-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm flex items-center justify-between group hover:border-[var(--accent)] transition-all">
                 <div className="space-y-0.5">
                     <p className="text-[8px] sm:text-[9px] font-bold text-[var(--muted)]/60 uppercase tracking-[0.1em] leading-tight">Total System Liability</p>
-                    <h2 className="text-xl sm:text-2xl font-black text-[var(--accent)] tabular-nums leading-none">₹{totalWalletCredit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h2>
+                    <h2 className="text-xl sm:text-2xl font-black text-[var(--accent)] tabular-nums leading-none">{CONFIG.CURRENCY_SYMBOL}{totalWalletCredit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h2>
                 </div>
                 <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)] group-hover:scale-105 transition-transform">
                     <FiActivity size={18} />
@@ -196,7 +197,7 @@ export default function WalletTab() {
                                                     <p className="text-[10px] text-[var(--muted)]/60 truncate max-w-[120px] leading-tight mt-0.5">{user.email || user.phone}</p>
                                                 </td>
                                                 <td className="px-3 py-2.5 text-right">
-                                                    <span className="font-black text-[var(--accent)] text-[13px] tabular-nums">₹{user.wallet?.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                                                    <span className="font-black text-[var(--accent)] text-[13px] tabular-nums">{CONFIG.CURRENCY_SYMBOL}{user.wallet?.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                                                 </td>
                                                 <td className="px-3 py-2.5 text-center">
                                                     <button
@@ -255,7 +256,7 @@ export default function WalletTab() {
                                     </div>
                                     <div>
                                         <p className="font-bold">{selectedUser.name}</p>
-                                        <p className="text-xs text-[var(--muted)]">Current: ₹{selectedUser.wallet?.toFixed(2) || "0.00"}</p>
+                                        <p className="text-xs text-[var(--muted)]">Current: {CONFIG.CURRENCY_SYMBOL}{selectedUser.wallet?.toFixed(2) || "0.00"}</p>
                                     </div>
                                 </div>
 
@@ -276,7 +277,7 @@ export default function WalletTab() {
                                     </div>
 
                                     <div>
-                                        <label className="text-xs font-semibold text-[var(--muted)] uppercase">Amount (₹)</label>
+                                        <label className="text-xs font-semibold text-[var(--muted)] uppercase">Amount ({CONFIG.CURRENCY_SYMBOL})</label>
                                         <input
                                             type="number"
                                             value={adjustAmount}
@@ -346,7 +347,7 @@ export default function WalletTab() {
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <span className={`font-black text-[13px] tabular-nums ${tx.type === 'deposit' || tx.type === 'admin_add' ? 'text-green-500' : 'text-red-500'}`}>
-                                                    {tx.type === 'deposit' || tx.type === 'admin_add' ? '+' : '-'}₹{tx.amount.toLocaleString('en-IN')}
+                                                    {tx.type === 'deposit' || tx.type === 'admin_add' ? '+' : '-'}{CONFIG.CURRENCY_SYMBOL}{tx.amount.toLocaleString('en-IN')}
                                                 </span>
                                                 <span className={`w-fit px-1.5 py-0.5 rounded text-[8px] uppercase font-black tracking-widest ${tx.type === 'deposit' || tx.type === 'admin_add' || tx.type === 'refund' ? 'bg-green-500/10 text-green-500' :
                                                     tx.type === 'payment' ? 'bg-blue-500/10 text-blue-500' : 'bg-red-500/10 text-red-500'
@@ -356,7 +357,7 @@ export default function WalletTab() {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <span className="text-[11px] font-bold text-[var(--foreground)]">₹{tx.balanceAfter?.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                                            <span className="text-[11px] font-bold text-[var(--foreground)]">{CONFIG.CURRENCY_SYMBOL}{tx.balanceAfter?.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${tx.status === 'success' ? 'bg-green-500/10 text-green-500' :

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import logo from "@/public/logo.png";
+import { CONFIG } from "@/lib/config";
 
 export default function BuyPanel({
   activeItem,
@@ -32,12 +33,12 @@ export default function BuyPanel({
 
           <div className="flex items-center gap-2 mt-1.5">
             <p className="text-2xl font-extrabold text-[var(--accent)]">
-              ₹{activeItem.sellingPrice}
+              {CONFIG.CURRENCY_SYMBOL}{activeItem.sellingPrice}
             </p>
 
             {activeItem.dummyPrice && (
               <p className="text-xs line-through text-[var(--muted)]">
-                ₹{activeItem.dummyPrice}
+                {CONFIG.CURRENCY_SYMBOL}{activeItem.dummyPrice}
               </p>
             )}
           </div>

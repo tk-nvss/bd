@@ -19,6 +19,7 @@ import {
   FiRotateCcw,
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import { CONFIG } from "@/lib/config";
 
 /* ================= TYPES ================= */
 
@@ -100,7 +101,7 @@ export default function OrderItem({ order }: { order: OrderType }) {
                 <div className="flex items-center justify-end gap-1 text-[9px] font-medium text-[var(--muted)] mb-0.5 uppercase">
                   <FiCalendar /> {new Date(order.createdAt).toLocaleDateString()}
                 </div>
-                <div className="text-base font-bold text-[var(--foreground)]">₹{order.price.toFixed(2)}</div>
+                <div className="text-base font-bold text-[var(--foreground)]">{CONFIG.CURRENCY_SYMBOL}{order.price.toFixed(2)}</div>
               </div>
 
               <div className="flex items-center gap-2">

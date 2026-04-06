@@ -17,6 +17,7 @@ import {
   Loader2,
   Package
 } from "lucide-react";
+import { CONFIG } from "@/lib/config";
 
 export default function PricingTab({
   pricingType,
@@ -239,8 +240,8 @@ export default function PricingTab({
 
                 <div className="space-y-2">
                   <div className="hidden sm:grid grid-cols-12 gap-3 px-2 text-[10px] font-bold text-[var(--muted)]">
-                    <div className="col-span-4">Min Price (₹)</div>
-                    <div className="col-span-4">Max Price (₹)</div>
+                    <div className="col-span-4">Min Price ({CONFIG.CURRENCY_SYMBOL})</div>
+                    <div className="col-span-4">Max Price ({CONFIG.CURRENCY_SYMBOL})</div>
                     <div className="col-span-3">Markup (%)</div>
                     <div className="col-span-1"></div>
                   </div>
@@ -253,7 +254,7 @@ export default function PricingTab({
                       className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-3 items-center p-3 sm:p-3.5 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.01] hover:bg-[var(--foreground)]/[0.03] transition-colors"
                     >
                       <div className="col-span-4 space-y-1 sm:space-y-0">
-                        <label className="sm:hidden text-[10px] font-bold text-[var(--muted)] ml-1">Min Price (₹)</label>
+                        <label className="sm:hidden text-[10px] font-bold text-[var(--muted)] ml-1">Min Price ({CONFIG.CURRENCY_SYMBOL})</label>
                         <input
                           type="number"
                           value={s.min}
@@ -263,7 +264,7 @@ export default function PricingTab({
                         />
                       </div>
                       <div className="col-span-4 space-y-1 sm:space-y-0">
-                        <label className="sm:hidden text-[10px] font-bold text-[var(--muted)] ml-1">Max Price (₹)</label>
+                        <label className="sm:hidden text-[10px] font-bold text-[var(--muted)] ml-1">Max Price ({CONFIG.CURRENCY_SYMBOL})</label>
                         <input
                           type="number"
                           value={s.max}

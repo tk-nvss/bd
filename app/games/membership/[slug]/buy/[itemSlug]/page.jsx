@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
+import { CONFIG } from "@/lib/config";
 
 import dynamic from "next/dynamic";
 
@@ -101,12 +102,12 @@ export default function BuyFlowPage() {
 
               <div className="text-sm mt-1">
                 <span className="text-[var(--accent)] font-medium">
-                  ₹{totalPrice}
+                  {CONFIG.CURRENCY_SYMBOL}{totalPrice}
                 </span>
 
                 {discount > 0 && (
                   <span className="ml-2 line-through text-gray-500 text-xs">
-                    ₹{price}
+                    {CONFIG.CURRENCY_SYMBOL}{price}
                   </span>
                 )}
               </div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import QRCode from "qrcode";
 import logo from "@/public/logo.png";
 import { FiActivity, FiShield, FiZap, FiCreditCard } from "react-icons/fi";
+import { CONFIG } from "@/lib/config";
 
 export default function ReviewAndPaymentStep({
   step,
@@ -176,7 +177,7 @@ export default function ReviewAndPaymentStep({
                       </div>
                       <div>
                         <p className="font-bold text-sm">Pay via Wallet</p>
-                        <p className="text-[10px] text-[var(--muted)]">Balance: ₹{walletBalance.toFixed(2)}</p>
+                        <p className="text-[10px] text-[var(--muted)]">Balance: {CONFIG.CURRENCY_SYMBOL}{walletBalance.toFixed(2)}</p>
                       </div>
                     </div>
                     {paymentMethod === 'wallet' && <div className="h-5 w-5 rounded-full bg-[var(--accent)] flex items-center justify-center"><div className="w-2 h-2 rounded-full bg-black" /></div>}
@@ -225,15 +226,15 @@ export default function ReviewAndPaymentStep({
             <div className="space-y-3 mb-6">
               <div className="flex justify-between text-sm text-[var(--muted)]">
                 <span>Subtotal</span>
-                <span>₹{price}</span>
+                <span>{CONFIG.CURRENCY_SYMBOL}{price}</span>
               </div>
               <div className="flex justify-between text-sm text-emerald-400">
                 <span>Promotion</span>
-                <span>-₹{discount}</span>
+                <span>-{CONFIG.CURRENCY_SYMBOL}{discount}</span>
               </div>
               <div className="pt-3 border-t border-[var(--border)] flex justify-between items-center">
                 <span className="font-bold text-lg">Order Total</span>
-                <span className="text-2xl font-black text-[var(--accent)]">₹{totalPrice}</span>
+                <span className="text-2xl font-black text-[var(--accent)]">{CONFIG.CURRENCY_SYMBOL}{totalPrice}</span>
               </div>
             </div>
 
