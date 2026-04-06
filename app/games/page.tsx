@@ -167,7 +167,7 @@ export default function GamesPage() {
             {/* STOCK INDICATOR */}
             {disabled && (
               <div className="absolute inset-0 z-20 flex items-center justify-center backdrop-blur-[2px]">
-                <span className="text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 bg-red-600/90 text-white rounded-lg shadow-2xl border border-red-400/30">
+                <span className="text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 bg-[var(--accent)] text-white rounded-lg shadow-2xl border border-white/20">
                   OOS
                 </span>
               </div>
@@ -177,7 +177,7 @@ export default function GamesPage() {
           {/* INFO SECTION */}
           <div className="w-full mt-2 px-1 space-y-0.5 pb-1">
             <h3 className="text-[10px] md:text-[11px] font-black text-[var(--foreground)] line-clamp-2 text-center 
-                         min-h-[2.2em] px-1 group-hover:text-red-500 transition-colors uppercase tracking-tight">
+                         min-h-[2.2em] px-1 group-hover:text-[var(--accent)] transition-colors uppercase tracking-tight">
               {game.gameName}
             </h3>
             {game.gameFrom && (
@@ -197,28 +197,32 @@ export default function GamesPage() {
   };
 
   const SectionHeader = ({ title, count, icon: Icon }: any) => (
-    <div className="flex items-center gap-4 mb-8 px-1">
-      {/* LEFT LINE */}
-      <div className="flex-1 h-[1px] bg-gradient-to-l from-white/10 via-white/5 to-transparent mr-4 opacity-40" />
-
-      <div className="flex flex-col items-center">
-        <h2 className="text-2xl md:text-5xl font-black tracking-tighter uppercase italic leading-none flex items-center gap-3 drop-shadow-[0_0_15px_rgba(255,0,0,0.3)]">
-          <span className="text-[var(--foreground)]">SELECT</span>
-          <span className="text-red-600">GAME</span>
-        </h2>
+    <div className="flex items-center gap-4 mb-8 px-2 group">
+      <div className="flex flex-col items-start translate-y-1">
+        <div className="flex items-center gap-3">
+          {Icon && (
+            <div className="p-2 rounded-lg bg-[var(--accent)]/10 border border-[var(--accent)]/20 shadow-[0_0_15px_var(--glow)]">
+              <Icon size={18} className="text-[var(--accent)]" />
+            </div>
+          )}
+          <h2 className="text-xl md:text-3xl font-black tracking-tighter uppercase italic leading-none flex items-center gap-3 drop-shadow-[0_0_15px_var(--glow)]">
+            <span className="text-[var(--foreground)] opacity-90">{title.split(' ')[0]}</span>
+            <span className="text-[var(--accent)]">{title.split(' ').slice(1).join(' ')}</span>
+          </h2>
+        </div>
 
         {count !== undefined && (
-          <div className="flex items-center gap-2 mt-3">
-            <div className="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse" />
-            <p className="text-[10px] text-[var(--muted)] font-black uppercase tracking-[0.3em]">
-              {count} Units Detected
+          <div className="flex items-center gap-2 mt-3 ml-12">
+            <div className="h-1 w-1 rounded-full bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]" />
+            <p className="text-[10px] text-[var(--muted)] font-black uppercase tracking-widest opacity-80">
+              {count} Games available
             </p>
           </div>
         )}
       </div>
 
-      {/* RIGHT LINE */}
-      <div className="flex-1 h-[1px] bg-gradient-to-r from-[var(--border)] via-[var(--border)]/20 to-transparent ml-6 opacity-40" />
+      {/* RIGHT ACCENT LINE */}
+      <div className="flex-1 h-[1px] bg-gradient-to-r from-[var(--border)] via-[var(--border)]/10 to-transparent mt-6" />
     </div>
   );
 
@@ -230,10 +234,12 @@ export default function GamesPage() {
 
       {/* AMBIENT EFFECTS REMOVED TO SHOW BODY BACKGROUND */}
 
-      {/* ================= FILTER BAR ================= */}
-      <div className="sticky top-0 md:top-[48px] z-40 bg-white/0 backdrop-blur-3xl border-b border-[var(--border)]">
-        <div className="max-w-7xl mx-auto px-4 py-2 flex items-center gap-2 md:gap-4">
-
+      {/* ================= FILTER BAR (CINEMATIC GLASS) ================= */}
+      <div className="sticky top-0 md:top-[48px] z-40">
+        <div className="absolute inset-0 bg-[var(--card)]/30 backdrop-blur-3xl border-b border-[var(--border)] shadow-2xl shadow-black/5" />
+        
+        {/* SEARCH & ACTIONS */}
+        <div className="relative max-w-7xl mx-auto px-4 py-2.5 flex items-center gap-2 md:gap-4">
           {/* SEARCH */}
           <div className="relative flex-1 group">
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] group-focus-within:text-[var(--accent)] transition-colors z-10" />
@@ -243,7 +249,7 @@ export default function GamesPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="SEARCH GAMES..."
               className="w-full h-10 pl-10 pr-10 rounded-xl border border-[var(--border)]
-                       bg-[var(--card)]/40 backdrop-blur-xl text-[11px] font-bold tracking-wider outline-none transition-all
+                       bg-black/10 backdrop-blur-md text-[11px] font-bold tracking-wider outline-none transition-all
                        focus:border-[var(--accent)]/50 uppercase
                        placeholder:text-[var(--muted)] text-[var(--foreground)] shadow-sm"
             />
@@ -267,13 +273,13 @@ export default function GamesPage() {
             <button
               onClick={() => setShowFilter(true)}
               className="relative flex items-center justify-center gap-3 h-10 px-4 rounded-xl 
-                       bg-[var(--card)]/40 backdrop-blur-xl border border-[var(--border)] text-[var(--foreground)] font-bold text-[11px] uppercase tracking-widest
+                       bg-black/10 backdrop-blur-md border border-[var(--border)] text-[var(--foreground)] font-bold text-[11px] uppercase tracking-widest
                        hover:bg-[var(--accent)]/10 transition-all active:scale-95 shadow-sm"
             >
               <FiFilter size={20} />
               <span className="hidden sm:inline text-xs">Module Filter</span>
               {activeFilterCount > 0 && (
-                <span className="absolute -top-2 -right-2 min-w-[20px] h-[20px] flex items-center justify-center text-[9px] rounded-full bg-red-600 text-white font-black border-2 border-white/20 shadow-lg">
+                <span className="absolute -top-2 -right-2 min-w-[20px] h-[20px] flex items-center justify-center text-[9px] rounded-full bg-[var(--accent)] text-white font-black border-2 border-white/20 shadow-lg">
                   {activeFilterCount}
                 </span>
               )}
@@ -281,9 +287,9 @@ export default function GamesPage() {
           </div>
         </div>
 
-        {/* ================= CATEGORY SWITCHER (COMPACT) ================= */}
-        <div className="max-w-7xl mx-auto px-4 pb-2.5 overflow-x-auto no-scrollbar">
-          <div className="flex items-center gap-2 min-w-max">
+        {/* CATEGORY SWITCHER (GLASS STRIP) */}
+        <div className="relative max-w-7xl mx-auto px-4 pb-3 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-2 min-w-max p-1 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-sm shadow-inner">
             {[
               { id: "ALL", label: "ALL", icon: FiGrid },
               { id: "MLBB", label: "MLBB", icon: FiZap },
@@ -297,10 +303,10 @@ export default function GamesPage() {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg border font-black text-[9px] uppercase tracking-[0.1em] transition-all duration-300
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border font-black text-[9px] uppercase tracking-[0.1em] transition-all duration-300
                             ${isActive 
-                              ? "bg-[var(--accent)]/10 border-[var(--accent)] text-[var(--accent)]" 
-                              : "bg-[var(--card)]/10 border-[var(--border)] text-[var(--muted)] hover:border-[var(--muted)]"
+                              ? "bg-[var(--accent)]/20 border-[var(--accent)] text-[var(--accent)] shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]" 
+                              : "bg-transparent border-transparent text-[var(--muted)] hover:bg-white/5 hover:text-[var(--foreground)]"
                             }`}
                 >
                   <Icon size={12} />
@@ -372,7 +378,7 @@ export default function GamesPage() {
                         <p className="text-[10px] md:text-[12px] font-black text-[var(--foreground)] italic truncate uppercase tracking-tight">
                           {ott.name}
                         </p>
-                        <p className="text-[7px] md:text-[8px] text-red-500 font-black uppercase tracking-[0.2em] mt-0.5">
+                        <p className="text-[7px] md:text-[8px] text-[var(--accent)] font-black uppercase tracking-[0.2em] mt-0.5">
                           {ott.category}
                         </p>
                       </div>

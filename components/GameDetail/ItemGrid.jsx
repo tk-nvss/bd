@@ -21,7 +21,7 @@ export default function ItemGrid({
           transition: { staggerChildren: 0.05 }
         }
       }}
-      className="max-w-6xl mx-auto mb-10 grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2"
+      className="max-w-6xl mx-auto mb-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
     >
       {items.map((item, index) => {
         const isSelected = activeItem?.itemSlug === item.itemSlug;
@@ -47,11 +47,11 @@ export default function ItemGrid({
             }}
             className={`
               relative overflow-hidden group
-              rounded-lg border transition-all duration-300
-              flex flex-col justify-between min-h-[60px] p-2 cursor-pointer
+              rounded-xl border transition-all duration-300
+              flex flex-col justify-between p-4 cursor-pointer
               ${isSelected
-                ? "border-[var(--accent)] bg-[var(--accent)]/10 shadow-[0_0_30px_rgba(var(--accent-rgb),0.2)] backdrop-blur-md"
-                : "border-[var(--border)] bg-[var(--card)]/40 hover:border-[var(--accent)]/40 hover:bg-[var(--card)]/60 backdrop-blur-sm"
+                ? "border-[var(--accent)] bg-[var(--accent)]/15 shadow-[0_15px_30px_rgba(var(--accent-rgb),0.2)] backdrop-blur-md"
+                : "border-[var(--border)] bg-[var(--card)]/40 hover:border-[var(--accent)]/40 hover:bg-[var(--card)]/60 backdrop-blur-sm shadow-lg overflow-hidden"
               }
             `}
           >
