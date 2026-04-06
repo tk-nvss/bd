@@ -40,19 +40,6 @@ html[data-theme="dark"] {
   --header-bg: rgba(0, 0, 0, 0.65);
 }
 
-/* 💠 Uchiha Theme (Midnight / Electric Blue) */
-html[data-theme="midnight"] {
-  --background: #020617;
-  --foreground: #f8fafc;
-  --accent: #3b82f6;
-  --accent-hover: #1d4ed8;
-  --muted: #64748b;
-  --border: rgba(59, 130, 246, 0.2);
-  --card: rgba(59, 130, 246, 0.05);
-  --glow: rgba(59, 130, 246, 0.3);
-  --bg-overlay: rgba(2, 6, 23, 0.9);
-  --header-bg: rgba(2, 6, 23, 0.45);
-}
 
 /* ☀️ Amber Theme (White / Orange) */
 html[data-theme="light"] {

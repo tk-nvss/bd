@@ -1,132 +1,74 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiChevronDown, FiMoon, FiSun, FiActivity, FiDroplet, FiZap, FiTarget, FiCommand, FiGrid } from "react-icons/fi";
-
-const themes = [
-  { id: "dark", icon: <FiMoon />, label: "Slayer", color: "#dc2626" },
-  { id: "midnight", icon: <FiActivity />, label: "Uchiha", color: "#3b82f6" },
-  { id: "light", icon: <FiSun />, label: "Amber", color: "#f97316" },
-];
+import { FiMoon, FiSun } from "react-icons/fi";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<string>("light");
-  const [open, setOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [theme, setTheme] = useState<string>("dark");
+  const [mounted, setMounted] = useState(false);
 
   // Load stored theme on mount
   useEffect(() => {
-    const stored = localStorage.getItem("theme") || "light";
+    const stored = localStorage.getItem("theme") || "dark";
     setTheme(stored);
     document.documentElement.setAttribute("data-theme", stored);
+    setMounted(true);
   }, []);
 
-  // Change theme handler
-  const changeTheme = (newTheme: string) => {
+  // Toggle theme handler
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
-    setOpen(false);
   };
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-
-    if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [open]);
-
-  const currentTheme = themes.find((t) => t.id === theme) || themes[1];
+  if (!mounted) return <div className="w-10 h-10" />;
 
   return (
-    <div ref={containerRef} className="relative z-[90]">
-      {/* 🎨 Current Theme Button */}
+    <div className="relative z-[90]">
       <motion.button
-        onClick={() => setOpen(!open)}
-        className={`
-          w-10 h-10 flex items-center justify-center rounded-full border transition-all duration-300
-          ${open ? 'bg-[var(--accent)] text-white border-[var(--accent)]' : 'bg-[var(--card)]/50 border-[var(--border)] hover:border-[var(--accent)]/50'}
-        `}
-        whileHover={{ y: -1, rotate: [0, -10, 10, 0] }}
-        whileTap={{ scale: 0.9 }}
+        onClick={toggleTheme}
+        className="
+          relative w-12 h-6 flex items-center bg-[var(--card)]/80 border border-[var(--border)]
+          rounded-full p-1 cursor-pointer overflow-hidden backdrop-blur-md transition-shadow duration-300
+          hover:shadow-[0_0_15px_rgba(var(--accent-rgb),0.2)]
+        "
+        whileTap={{ scale: 0.95 }}
       >
-        <motion.span
-          animate={open ? { rotate: 180, scale: 1.1 } : { rotate: 0, scale: 1 }}
-          className="text-lg"
+        <motion.div
+          className="w-4 h-4 rounded-full bg-[var(--accent)] flex items-center justify-center text-white text-[10px] shadow-lg shadow-[var(--accent)]/30"
+          animate={{
+            x: theme === "light" ? 22 : 0,
+          }}
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
         >
-          {currentTheme.icon}
-        </motion.span>
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={theme}
+              initial={{ opacity: 0, rotate: -45, scale: 0.5 }}
+              animate={{ opacity: 1, rotate: 0, scale: 1 }}
+              exit={{ opacity: 0, rotate: 45, scale: 0.5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {theme === "light" ? <FiSun size={8} /> : <FiMoon size={8} />}
+            </motion.span>
+          </AnimatePresence>
+        </motion.div>
+        
+        {/* Subtle Ambient Icons in background */}
+        <div className="absolute inset-0 flex items-center justify-between px-2.5 pointer-events-none opacity-20">
+          <FiMoon size={10} className={theme === "dark" ? "text-[var(--accent)]" : "text-[var(--muted)]"} />
+          <FiSun size={10} className={theme === "light" ? "text-[var(--accent)]" : "text-[var(--muted)]"} />
+        </div>
       </motion.button>
 
-      {/* 🪄 Dropdown Menu */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="absolute right-0 mt-3 w-56 bg-[var(--card)] border border-[var(--border)] rounded-[2rem] shadow-2xl overflow-hidden backdrop-blur-xl"
-          >
-            <div className="p-3 grid grid-cols-1 gap-1.5 max-h-80 overflow-y-auto custom-scrollbar">
-              <div className="px-4 py-2 text-[10px] uppercase tracking-widest font-bold text-[var(--muted)] border-b border-[var(--border)] mb-2">
-                Select Aesthetics
-              </div>
-              {themes.map((t) => (
-                <motion.button
-                  key={t.id}
-                  onClick={() => changeTheme(t.id)}
-                  className={`
-                    flex items-center justify-between w-full px-4 py-3 rounded-full text-xs transition-all group
-                    ${theme === t.id
-                      ? "bg-[var(--accent)] text-white"
-                      : "hover:bg-[var(--accent)]/10 text-[var(--foreground)]"}
-                  `}
-                  whileHover={{ x: 4 }}
-                >
-                  <div className="flex items-center gap-3">
-                    <span
-                      className="text-lg transition-transform group-hover:scale-110"
-                      style={{ color: theme === t.id ? '#fff' : t.color }}
-                    >
-                      {t.icon}
-                    </span>
-                    <span className="font-semibold tracking-wide">{t.label}</span>
-                  </div>
-                  {theme === t.id && (
-                    <motion.div
-                      layoutId="active-theme"
-                      className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                    />
-                  )}
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: var(--accent);
-          border-radius: 10px;
-          opacity: 0.5;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
+      <style jsx>{`
+        button {
+          box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
       `}</style>
     </div>
   );
 }
-

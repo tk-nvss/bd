@@ -291,11 +291,10 @@ export default function GamesPage() {
         <div className="relative max-w-7xl mx-auto px-4 pb-3 overflow-x-auto no-scrollbar">
           <div className="flex items-center gap-2 min-w-max p-1 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-sm shadow-inner">
             {[
-              { id: "ALL", label: "ALL", icon: FiGrid },
-              { id: "MLBB", label: "MLBB", icon: FiZap },
-              { id: "OTHERS", label: "OTHERS", icon: FiBox },
-              { id: "STREAM", label: "STREAM", icon: FiTv },
-              { id: "MEMBERS", label: "MEMBERS", icon: FiTrendingUp },
+              { id: "ALL", label: "All", icon: FiGrid },
+              { id: "GAMES", label: "Games Top-Up", icon: FiZap },
+              { id: "GIFTS", label: "Gift Cards", icon: FiBox },
+              { id: "OTT", label: "OTT Subscriptions", icon: FiTv },
             ].map((cat) => {
               const Icon = cat.icon;
               const isActive = activeCategory === cat.id;
@@ -321,30 +320,32 @@ export default function GamesPage() {
       {/* ================= CONTENT ================= */}
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-24">
         
-        {/* GAMES SECTION (SHOW FOR ALL, MLBB, OTHERS) */}
-        {(activeCategory === "ALL" || activeCategory === "MLBB" || activeCategory === "OTHERS") && (
+        {/* GAMES SECTION (SHOW FOR ALL, GAMES, GIFTS) */}
+        {(activeCategory === "ALL" || activeCategory === "GAMES" || activeCategory === "GIFTS") && (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
             <SectionHeader
-              title={activeCategory === "MLBB" ? "MLBB GAMES" : activeCategory === "OTHERS" ? "OTHER GAMES" : "SELECT GAME"}
+              title={activeCategory === "GIFTS" ? "GIFT CARDS" : activeCategory === "GAMES" ? "GAMES TOP-UP" : "SELECT PRODUCT"}
               count={
                 processGames(games).filter(g => {
-                  if (activeCategory === "MLBB") return g.storeCategory === "MLBB";
-                  if (activeCategory === "OTHERS") return g.storeCategory === "OTHERS";
-                  return true;
+                  if (activeCategory === "ALL") return true; 
+                  if (activeCategory === "GAMES") return true; 
+                  if (activeCategory === "GIFTS") return g.storeCategory === "CARDS"; // Assume CARDS for future gift cards
+                  return false;
                 }).length
               }
-              icon={FiBox}
+              icon={activeCategory === "GIFTS" ? FiBox : activeCategory === "GAMES" ? FiZap : FiGrid}
             />
             <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3 lg:gap-4">
               {processGames(games)
                 .filter(g => {
-                  if (activeCategory === "MLBB") return g.storeCategory === "MLBB";
-                  if (activeCategory === "OTHERS") return g.storeCategory === "OTHERS";
-                  return true;
+                  if (activeCategory === "ALL") return true;
+                  if (activeCategory === "GAMES") return true;
+                  if (activeCategory === "GIFTS") return g.storeCategory === "CARDS";
+                  return false;
                 })
                 .map((game: any) => (
                   <GameCard key={game.gameId} game={game} />
@@ -353,8 +354,8 @@ export default function GamesPage() {
           </motion.div>
         )}
 
-        {/* OTT SECTION (SHOW FOR ALL, STREAM) */}
-        {otts?.items?.length > 0 && (activeCategory === "ALL" || activeCategory === "STREAM") && !searchQuery && (
+        {/* OTT SECTION (SHOW FOR ALL, OTT) */}
+        {otts?.items?.length > 0 && (activeCategory === "ALL" || activeCategory === "OTT") && !searchQuery && (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -390,46 +391,6 @@ export default function GamesPage() {
           </motion.div>
         )}
 
-        {/* MEMBERSHIP SECTION (SHOW FOR ALL, MEMBERS) */}
-        {memberships?.items?.length > 0 && (activeCategory === "ALL" || activeCategory === "MEMBERS") && !searchQuery && (
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <SectionHeader title={memberships.title} icon={FiTrendingUp} />
-            <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3 lg:gap-4">
-              {memberships.items.map((plan: any) => (
-                <motion.div
-                  key={plan.slug}
-                  whileHover={{ y: -4 }}
-                >
-                  <Link
-                    href={`/games/membership/${plan.slug}`}
-                    className="group relative flex flex-col p-1.5 rounded-2xl bg-gradient-to-br from-[var(--accent)]/10 to-transparent backdrop-blur-md border border-[var(--accent)]/30 transition-[border-color,box-shadow,transform] duration-300"
-                  >
-                    <div className="relative w-full aspect-square overflow-hidden rounded-xl bg-black/60 shadow-2xl">
-                      <Image src={plan.image} alt={plan.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
-                    </div>
-                    <div className="mt-5 pb-3 text-center">
-                      <p className="text-[13px] font-black text-[var(--foreground)] uppercase tracking-tighter italic">
-                        {plan.name}
-                      </p>
-                      <div className="inline-block mt-2 px-3 py-1 rounded-full bg-[var(--accent)] text-black text-[9px] font-black uppercase tracking-widest shadow-lg">
-                        {plan.duration}
-                      </div>
-                    </div>
-                    {/* PREMIUM INDICATOR */}
-                    <div className="absolute top-4 right-4 p-2 bg-white text-black rounded-full shadow-2xl scale-90 group-hover:scale-100 transition-transform">
-                      <FiZap size={14} />
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        )}
       </div>
 
       {/* ================= FILTER MODAL ================= */}
