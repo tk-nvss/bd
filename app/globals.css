@@ -11,8 +11,8 @@
   --border: rgba(255, 255, 255, 0.15);
   --card: rgba(255, 255, 255, 0.08);
   --glow: rgba(220, 38, 38, 0.25);
-  --bg-overlay: rgba(0, 0, 0, 0.85);
-  --header-bg: rgba(0, 0, 0, 0.45);
+  --bg-overlay: rgba(0, 0, 0, 0.94);
+  --header-bg: rgba(0, 0, 0, 0.65);
 }
 
 /* 🧩 Tailwind variable mapping */
@@ -36,8 +36,8 @@ html[data-theme="dark"] {
   --border: rgba(255, 255, 255, 0.15);
   --card: rgba(255, 255, 255, 0.08);
   --glow: rgba(220, 38, 38, 0.25);
-  --bg-overlay: rgba(0, 0, 0, 0.85);
-  --header-bg: rgba(0, 0, 0, 0.45);
+  --bg-overlay: rgba(0, 0, 0, 0.94);
+  --header-bg: rgba(0, 0, 0, 0.65);
 }
 
 /* 💠 Uchiha Theme (Midnight / Electric Blue) */
