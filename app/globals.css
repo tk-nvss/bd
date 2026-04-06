@@ -59,7 +59,7 @@ html[data-theme="light"] {
 body {
   background: radial-gradient(circle at center, var(--glow) 0%, transparent 70%),
     linear-gradient(var(--bg-overlay), var(--bg-overlay)),
-    url('https://www.xenpaikart.in/uploads/1774411790676-393181.png');
+    url('/bg-wall.png');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;

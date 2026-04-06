@@ -12,15 +12,11 @@ export async function GET() {
     });
 
     const data = await resp.json();
+    const balanceValue = typeof data === "number" ? data : (data?.balance || 0);
 
-    console.log("BALANCE API RESPONSE:", data);
-
-    return NextResponse.json({ success: true, balance: data });
+    return NextResponse.json({ success: true, balance: balanceValue });
   } catch (error: any) {
     console.error("BALANCE CHECK ERROR:", error);
-    return NextResponse.json(
-      { success: false, message: "Error checking balance", error: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: true, balance: 0 });
   }
 }

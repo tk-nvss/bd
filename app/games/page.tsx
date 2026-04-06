@@ -348,7 +348,7 @@ export default function GamesPage() {
                   return false;
                 })
                 .map((game: any) => (
-                  <GameCard key={game.gameId} game={game} />
+                  <GameCard key={game.gameSlug} game={game} />
                 ))}
             </div>
           </motion.div>
