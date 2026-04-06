@@ -7,17 +7,17 @@ import { FiChevronDown, FiMoon, FiSun, FiActivity, FiDroplet, FiZap, FiTarget, F
 const themes = [
   { id: "dark", icon: <FiMoon />, label: "Slayer", color: "#dc2626" },
   { id: "midnight", icon: <FiActivity />, label: "Uchiha", color: "#3b82f6" },
-  { id: "light", icon: <FiSun />, label: "Frost", color: "#94a3b8" },
+  { id: "light", icon: <FiSun />, label: "Amber", color: "#f97316" },
 ];
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<string>("dark");
+  const [theme, setTheme] = useState<string>("light");
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Load stored theme on mount
   useEffect(() => {
-    const stored = localStorage.getItem("theme") || "dark";
+    const stored = localStorage.getItem("theme") || "light";
     setTheme(stored);
     document.documentElement.setAttribute("data-theme", stored);
   }, []);

@@ -87,7 +87,7 @@ export default function GameBannerCarousel() {
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="mt-2 px-6 py-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-xs md:text-sm uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] border border-red-400/20"
+                className="mt-2 px-6 py-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white font-bold rounded-xl text-xs md:text-sm uppercase tracking-widest transition-all shadow-[0_0_20px_var(--glow)] border border-[var(--accent)]/20"
               >
                 RECHARGE NOW
               </motion.button>

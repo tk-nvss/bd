@@ -116,7 +116,7 @@ export default function Header() {
       variants={headerVariants}
       className={`fixed top-0 left-0 w-full z-[80] transition-colors duration-500`}
       style={{
-        backgroundColor: scrolled ? "rgba(0, 0, 0, 0.45)" : "transparent",
+        backgroundColor: scrolled ? "var(--header-bg)" : "transparent",
         backdropFilter: scrolled ? "blur(32px)" : "none",
         borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
       }}
@@ -133,7 +133,7 @@ export default function Header() {
         )}
       </AnimatePresence>
 
-      <div className="max-w-[1440px] mx-auto flex items-center justify-between px-4 sm:px-8 h-14">
+      <div className="max-w-[1440px] mx-auto flex items-center justify-between px-4 sm:px-8 h-12">
 
         {/* LOGO SECTION */}
         <div className="flex items-center">
@@ -141,16 +141,16 @@ export default function Header() {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="relative w-20 h-10 flex items-center justify-center transition-all duration-300 drop-shadow-[0_0_12px_rgba(255,255,255,0.15)]"
+              className="relative w-20 h-10 flex items-center justify-center transition-all duration-300 drop-shadow-[0_0_12px_var(--glow)] [html[data-theme='light']_&]:drop-shadow-[0_2px_12px_rgba(0,0,0,0.1)]"
             >
               <Image 
                 src={logo} 
                 alt="Logo" 
                 fill 
-                className="object-contain filter group-hover:brightness-125 transition-all"
+                className="object-contain transition-all duration-300 filter group-hover:brightness-110 [html[data-theme='light']_&]:drop-shadow-[0_0_1px_rgba(0,0,0,0.5)] [html[data-theme='light']_&]:brightness-90"
               />
             </motion.div>
-            <div className="absolute -inset-2 bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity blur-md" />
+            <div className="absolute -inset-2 bg-[var(--accent)]/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity blur-md" />
           </Link>
         </div>
 
@@ -247,7 +247,7 @@ export default function Header() {
                   animate="visible"
                   exit="exit"
                   variants={menuVariants}
-                  className="absolute right-0 top-[calc(100%+10px)] w-64 bg-black/95 border border-[var(--border)] rounded-[1.5rem] shadow-2xl overflow-hidden backdrop-blur-2xl z-50 px-2 py-3"
+                  className="absolute right-0 top-[calc(100%+10px)] w-64 bg-[var(--card)] border border-[var(--border)] rounded-[1.5rem] shadow-2xl overflow-hidden backdrop-blur-2xl z-50 px-2 py-3"
                 >
                   {!user ? (
                     <div className="p-5 flex flex-col items-center justify-center text-center">
@@ -278,7 +278,7 @@ export default function Header() {
                         <div className="flex items-center gap-3 min-w-0">
                           <div className="relative group/avatar">
                             <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[var(--accent)] to-indigo-500 p-[1px] shadow-lg">
-                              <div className="w-full h-full rounded-[15px] bg-black flex items-center justify-center overflow-hidden">
+                              <div className="w-full h-full rounded-[15px] bg-[var(--background)] flex items-center justify-center overflow-hidden">
                                 {user?.avatar && !avatarError ? (
                                   <img
                                     src={user.avatar}
@@ -291,7 +291,7 @@ export default function Header() {
                                 )}
                               </div>
                             </div>
-                            <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-black" />
+                            <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-[var(--background)]" />
                           </div>
                           <div className="flex flex-col min-w-0">
                             <span className="text-base font-black tracking-tight text-[var(--foreground)] truncate leading-tight">

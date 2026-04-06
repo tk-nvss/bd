@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiFilter, FiX, FiSearch, FiZap, FiBox, FiActivity } from "react-icons/fi";
+import { FiFilter, FiX, FiSearch, FiZap, FiBox, FiActivity, FiGrid, FiTv, FiTrendingUp } from "react-icons/fi";
 import dynamic from "next/dynamic";
 import logo from "@/public/logo.png";
 const GamesFilterModal = dynamic(() => import("@/components/Games/GamesFilterModal"), { ssr: false });
@@ -15,11 +15,11 @@ export default function GamesPage() {
   const [otts, setOtts] = useState<any>(null);
   const [memberships, setMemberships] = useState<any>(null);
 
-  /* ================= FILTER STATE ================= */
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("ALL");
   const [showFilter, setShowFilter] = useState(false);
   const [sort, setSort] = useState<"az" | "za">("az");
   const [hideOOS, setHideOOS] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   /* ================= CONFIG ================= */
   const SPECIAL_MLBB_GAME = "MLBB SMALL";
@@ -176,8 +176,8 @@ export default function GamesPage() {
 
           {/* INFO SECTION */}
           <div className="w-full mt-2 px-1 space-y-0.5 pb-1">
-            <h3 className="text-[10px] md:text-[12px] font-black text-white truncate 
-                         group-hover:text-red-500 transition-colors uppercase tracking-tight">
+            <h3 className="text-[10px] md:text-[11px] font-black text-[var(--foreground)] line-clamp-2 text-center 
+                         min-h-[2.2em] px-1 group-hover:text-red-500 transition-colors uppercase tracking-tight">
               {game.gameName}
             </h3>
             {game.gameFrom && (
@@ -203,7 +203,7 @@ export default function GamesPage() {
 
       <div className="flex flex-col items-center">
         <h2 className="text-2xl md:text-5xl font-black tracking-tighter uppercase italic leading-none flex items-center gap-3 drop-shadow-[0_0_15px_rgba(255,0,0,0.3)]">
-          <span className="text-white">SELECT</span>
+          <span className="text-[var(--foreground)]">SELECT</span>
           <span className="text-red-600">GAME</span>
         </h2>
 
@@ -227,25 +227,25 @@ export default function GamesPage() {
       {/* GLOBAL GRID OVERLAY */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none -z-10" />
 
+
       {/* AMBIENT EFFECTS REMOVED TO SHOW BODY BACKGROUND */}
 
       {/* ================= FILTER BAR ================= */}
-      <div className="sticky top-0 md:top-[64px] z-40 bg-black/40 backdrop-blur-3xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 py-5 flex items-center gap-4">
+      <div className="sticky top-0 md:top-[48px] z-40 bg-white/0 backdrop-blur-3xl border-b border-[var(--border)]">
+        <div className="max-w-7xl mx-auto px-4 py-2 flex items-center gap-2 md:gap-4">
 
           {/* SEARCH */}
           <div className="relative flex-1 group">
-            <div className="absolute inset-0 bg-[var(--accent)]/5 rounded-2xl blur-md opacity-0 group-focus-within:opacity-100 transition-opacity" />
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] group-focus-within:text-[var(--accent)] transition-colors z-10" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="COMMAND SEARCH..."
-              className="w-full h-12 pl-12 pr-12 rounded-2xl border border-white/10 
-                       bg-white/5 backdrop-blur-xl text-xs font-black tracking-widest outline-none transition-all
-                       focus:border-red-600/50 focus:ring-4 focus:ring-red-600/5 uppercase
-                       placeholder:text-white/20"
+              placeholder="SEARCH GAMES..."
+              className="w-full h-10 pl-10 pr-10 rounded-xl border border-[var(--border)]
+                       bg-[var(--card)]/40 backdrop-blur-xl text-[11px] font-bold tracking-wider outline-none transition-all
+                       focus:border-[var(--accent)]/50 uppercase
+                       placeholder:text-[var(--muted)] text-[var(--foreground)] shadow-sm"
             />
             <AnimatePresence>
               {searchQuery && (
@@ -266,51 +266,95 @@ export default function GamesPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowFilter(true)}
-              className="relative flex items-center justify-center gap-3 h-12 px-6 rounded-2xl 
-                       bg-white/10 backdrop-blur-xl border border-white/10 text-white font-black text-xs uppercase tracking-widest
-                       hover:bg-white/20 transition-all hover:scale-105 active:scale-95 shadow-xl"
+              className="relative flex items-center justify-center gap-3 h-10 px-4 rounded-xl 
+                       bg-[var(--card)]/40 backdrop-blur-xl border border-[var(--border)] text-[var(--foreground)] font-bold text-[11px] uppercase tracking-widest
+                       hover:bg-[var(--accent)]/10 transition-all active:scale-95 shadow-sm"
             >
               <FiFilter size={20} />
-              <span className="hidden sm:inline">Module Filter</span>
+              <span className="hidden sm:inline text-xs">Module Filter</span>
               {activeFilterCount > 0 && (
-                <span className="absolute -top-2 -right-2 min-w-[24px] h-[24px] flex items-center justify-center text-[10px] rounded-full bg-red-600 text-white font-black border-2 border-white/20 shadow-lg">
+                <span className="absolute -top-2 -right-2 min-w-[20px] h-[20px] flex items-center justify-center text-[9px] rounded-full bg-red-600 text-white font-black border-2 border-white/20 shadow-lg">
                   {activeFilterCount}
                 </span>
               )}
             </button>
           </div>
         </div>
+
+        {/* ================= CATEGORY SWITCHER (COMPACT) ================= */}
+        <div className="max-w-7xl mx-auto px-4 pb-2.5 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-2 min-w-max">
+            {[
+              { id: "ALL", label: "ALL", icon: FiGrid },
+              { id: "MLBB", label: "MLBB", icon: FiZap },
+              { id: "OTHERS", label: "OTHERS", icon: FiBox },
+              { id: "STREAM", label: "STREAM", icon: FiTv },
+              { id: "MEMBERS", label: "MEMBERS", icon: FiTrendingUp },
+            ].map((cat) => {
+              const Icon = cat.icon;
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg border font-black text-[9px] uppercase tracking-[0.1em] transition-all duration-300
+                            ${isActive 
+                              ? "bg-[var(--accent)]/10 border-[var(--accent)] text-[var(--accent)]" 
+                              : "bg-[var(--card)]/10 border-[var(--border)] text-[var(--muted)] hover:border-[var(--muted)]"
+                            }`}
+                >
+                  <Icon size={12} />
+                  {cat.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* ================= CONTENT ================= */}
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-24">
-
-        {/* ALL GAMES SECTION */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <SectionHeader
-            title="SELECT GAME"
-            count={processGames(games).length}
-            icon={FiBox}
-          />
-          <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3 lg:gap-4">
-            {processGames(games).map((game: any) => (
-              <GameCard key={game.gameId} game={game} />
-            ))}
-          </div>
-        </motion.div>
-
-        {/* OTT SECTION */}
-        {otts?.items?.length > 0 && (
+        
+        {/* GAMES SECTION (SHOW FOR ALL, MLBB, OTHERS) */}
+        {(activeCategory === "ALL" || activeCategory === "MLBB" || activeCategory === "OTHERS") && (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <SectionHeader title={otts.title} icon={FiZap} />
+            <SectionHeader
+              title={activeCategory === "MLBB" ? "MLBB GAMES" : activeCategory === "OTHERS" ? "OTHER GAMES" : "SELECT GAME"}
+              count={
+                processGames(games).filter(g => {
+                  if (activeCategory === "MLBB") return g.storeCategory === "MLBB";
+                  if (activeCategory === "OTHERS") return g.storeCategory === "OTHERS";
+                  return true;
+                }).length
+              }
+              icon={FiBox}
+            />
+            <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3 lg:gap-4">
+              {processGames(games)
+                .filter(g => {
+                  if (activeCategory === "MLBB") return g.storeCategory === "MLBB";
+                  if (activeCategory === "OTHERS") return g.storeCategory === "OTHERS";
+                  return true;
+                })
+                .map((game: any) => (
+                  <GameCard key={game.gameId} game={game} />
+                ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* OTT SECTION (SHOW FOR ALL, STREAM) */}
+        {otts?.items?.length > 0 && (activeCategory === "ALL" || activeCategory === "STREAM") && !searchQuery && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <SectionHeader title={otts.title} icon={FiTv} />
             <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3 lg:gap-4">
               {otts.items.map((ott: any) => (
                 <motion.div
@@ -325,7 +369,7 @@ export default function GamesPage() {
                       <Image src={ott.image} alt={ott.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
                       <div className="absolute bottom-4 left-4 right-4">
-                        <p className="text-[10px] md:text-[12px] font-black text-white italic truncate uppercase tracking-tight">
+                        <p className="text-[10px] md:text-[12px] font-black text-[var(--foreground)] italic truncate uppercase tracking-tight">
                           {ott.name}
                         </p>
                         <p className="text-[7px] md:text-[8px] text-red-500 font-black uppercase tracking-[0.2em] mt-0.5">
@@ -340,14 +384,14 @@ export default function GamesPage() {
           </motion.div>
         )}
 
-        {/* MEMBERSHIP SECTION */}
-        {memberships?.items?.length > 0 && (
+        {/* MEMBERSHIP SECTION (SHOW FOR ALL, MEMBERS) */}
+        {memberships?.items?.length > 0 && (activeCategory === "ALL" || activeCategory === "MEMBERS") && !searchQuery && (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <SectionHeader title={memberships.title} icon={FiActivity} />
+            <SectionHeader title={memberships.title} icon={FiTrendingUp} />
             <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3 lg:gap-4">
               {memberships.items.map((plan: any) => (
                 <motion.div

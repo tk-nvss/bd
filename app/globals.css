@@ -11,6 +11,8 @@
   --border: rgba(255, 255, 255, 0.15);
   --card: rgba(255, 255, 255, 0.08);
   --glow: rgba(220, 38, 38, 0.25);
+  --bg-overlay: rgba(0, 0, 0, 0.85);
+  --header-bg: rgba(0, 0, 0, 0.45);
 }
 
 /* 🧩 Tailwind variable mapping */
@@ -34,6 +36,8 @@ html[data-theme="dark"] {
   --border: rgba(255, 255, 255, 0.15);
   --card: rgba(255, 255, 255, 0.08);
   --glow: rgba(220, 38, 38, 0.25);
+  --bg-overlay: rgba(0, 0, 0, 0.85);
+  --header-bg: rgba(0, 0, 0, 0.45);
 }
 
 /* 💠 Uchiha Theme (Midnight / Electric Blue) */
@@ -46,24 +50,28 @@ html[data-theme="midnight"] {
   --border: rgba(59, 130, 246, 0.2);
   --card: rgba(59, 130, 246, 0.05);
   --glow: rgba(59, 130, 246, 0.3);
+  --bg-overlay: rgba(2, 6, 23, 0.9);
+  --header-bg: rgba(2, 6, 23, 0.45);
 }
 
-/* ❄️ Frost Theme (Light / Silver Glass) */
+/* ☀️ Amber Theme (White / Orange) */
 html[data-theme="light"] {
   --background: #ffffff;
-  --foreground: #020202;
-  --accent: #94a3b8;
-  --accent-hover: #475569;
+  --foreground: #0f172a;
+  --accent: #f97316;
+  --accent-hover: #ea580c;
   --muted: #64748b;
-  --border: rgba(0, 0, 0, 0.1);
-  --card: rgba(255, 255, 255, 0.8);
-  --glow: rgba(148, 163, 184, 0.1);
+  --border: rgba(249, 115, 22, 0.1);
+  --card: rgba(255, 255, 255, 0.5);
+  --glow: rgba(249, 115, 22, 0.08);
+  --bg-overlay: rgba(255, 255, 255, 0.9);
+  --header-bg: rgba(255, 255, 255, 0.05);
 }
 
 /* 🪄 Smooth Transitions */
 body {
   background: radial-gradient(circle at center, var(--glow) 0%, transparent 70%),
-    linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+    linear-gradient(var(--bg-overlay), var(--bg-overlay)),
     url('https://www.xenpaikart.in/uploads/1774411790676-393181.png');
   background-attachment: fixed;
   background-size: cover;

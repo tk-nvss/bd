@@ -106,12 +106,12 @@ export default function GameDetailPage() {
         <div className="absolute -top-3 left-0 right-0 flex justify-between px-2 opacity-20 pointer-events-none">
           <div className="flex gap-1">
             <div className="w-1 h-1 bg-red-600 shadow-[0_0_8px_red]" />
-            <div className="w-4 h-1 bg-white/10" />
+            <div className="w-4 h-1 bg-[var(--border)]" />
           </div>
           <span className="text-[7px] font-black uppercase tracking-[0.3em] text-[var(--muted)]">SEC-NAV // 001</span>
         </div>
  
-        <div className="relative rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 p-1 overflow-hidden shadow-2xl">
+        <div className="relative rounded-xl bg-[var(--card)]/40 backdrop-blur-xl border border-[var(--border)] p-1 overflow-hidden shadow-2xl">
           {/* Scanline Effect */}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%)] z-0 bg-[length:100%_4px] pointer-events-none opacity-20" />
  
@@ -132,7 +132,7 @@ export default function GameDetailPage() {
                     p-1 min-w-[64px] rounded-lg transition-all duration-300
                     ${isActive
                       ? "bg-red-600/10 scale-105"
-                      : "hover:bg-white/5"}
+                      : "hover:bg-[var(--accent)]/5"}
                   `}
                 >
                   {/* Image Container with Tactical Border */}
@@ -140,7 +140,7 @@ export default function GameDetailPage() {
                     relative w-10 h-10 rounded-lg overflow-hidden border transition-all duration-500
                     ${isActive
                       ? "border-red-600 shadow-[0_0_12px_rgba(220,38,38,0.4)]"
-                      : "border-white/10 grayscale group-hover/btn:grayscale-0 group-hover/btn:border-red-600/50"}
+                      : "border-[var(--border)] grayscale group-hover/btn:grayscale-0 group-hover/btn:border-red-600/50"}
                   `}>
                     <Image
                       src={g.gameImageId?.image || logo}
@@ -162,7 +162,7 @@ export default function GameDetailPage() {
                   <div className="flex flex-col items-center">
                     <span className={`
                       text-[8px] font-black uppercase tracking-tight transition-colors duration-300
-                      ${isActive ? "text-red-500" : "text-[var(--muted)] group-hover/btn:text-white"}
+                      ${isActive ? "text-red-500" : "text-[var(--muted)] group-hover/btn:text-[var(--foreground)]"}
                     `}>
                       {g.gameName === "PUBG Mobile" ? "BGMI" : g.gameName}
                     </span>

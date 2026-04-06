@@ -32,14 +32,14 @@ const MEMBERSHIPS = [
     category: "Membership",
     available: true,
   },
-  {
-    name: "Reseller Membership",
-    slug: "reseller-membership",
-    image: "/membership/reseller-m.png",
-    type: "reseller",
-    category: "Membership",
-    available: true,
-  },
+  // {
+  //   name: "Reseller Membership",
+  //   slug: "reseller-membership",
+  //   image: "/membership/reseller-m.png",
+  //   type: "reseller",
+  //   category: "Membership",
+  //   available: true,
+  // },
 ];
 
 
@@ -69,6 +69,14 @@ export async function GET() {
       if (updatedGame.gameFrom === "Moneyton") {
         updatedGame.gameFrom = "Moonton";
       }
+
+      // categorization logic
+      const isMLBB =
+        updatedGame.gameName?.toLowerCase().includes("mobile legends") ||
+        updatedGame.gameFrom?.toLowerCase().includes("moonton") ||
+        updatedGame.gameSlug?.toLowerCase().includes("mlbb");
+
+      updatedGame.storeCategory = isMLBB ? "MLBB" : "OTHERS";
 
       // Replace Mobile Legends main image
       if (updatedGame.gameSlug === "mobile-legends988" || updatedGame.gameSlug === "india-mlbb") {
@@ -120,20 +128,6 @@ export async function GET() {
       ...(data?.data?.games || [])
         .filter((game: any) => ALLOWED_SLUGS.includes(game.gameSlug))
         .map(normalizeGame),
-      // {
-      //   gameName: "BGMI",
-      //   gameSlug: "bgmi-manual",
-      //   gameFrom: "Krafton",
-      //   gameImageId: {
-      //     image: "/game-assets/bgmi-logo.webp",
-      //   },
-      //   gameAvailablity: true,
-      //   tagId: {
-      //     tagName: "auto",
-      //     tagColor: "#fff",
-      //     tagBackground: "linear-gradient(90deg, #ff8c00, #ff4500)",
-      //   },
-      // },
     ];
 
     /* ================= FILTER CATEGORY GAMES ================= */
@@ -146,73 +140,25 @@ export async function GET() {
             ?.map(normalizeGame) || [],
       })) || [];
 
-    /* ================= EXTRA SECTIONS ================= */
-
-    // Featured games
-    const featuredGames = filteredGames.filter((g: any) =>
-      ["mobile-legends988", "pubg-mobile138", "genshin-impact742"].includes(
-        g.gameSlug
-      )
-    );
-
-    // MLBB family
-    const mlbbVariants = filteredGames.filter(
-      (g: any) =>
-        g.gameSlug.includes("mlbb") ||
-        g.gameName.toLowerCase().includes("mlbb")
-    );
-
-    // Available only
-    const availableGames = filteredGames.filter(
-      (g: any) => g.gameAvailablity === true
-    );
-
-    // Group by publisher
-    const publishers = filteredGames.reduce((acc: any, game: any) => {
-      const key = game.gameFrom || "Unknown";
-      acc[key] = acc[key] || [];
-      acc[key].push(game);
-      return acc;
-    }, {});
-
-    // Group by region tag
-    const regionalGames = filteredGames.reduce((acc: any, game: any) => {
-      const region = game.tagId?.tagName || "Global";
-      acc[region] = acc[region] || [];
-      acc[region].push(game);
-      return acc;
-    }, {});
-
     /* ================= RESPONSE ================= */
     return NextResponse.json({
-      ...data,
+      success: true,
       data: {
-        ...data.data,
-
         games: filteredGames,
         category: filteredCategories,
         totalGames: filteredGames.length,
 
-        // 🔥 GAME SECTIONS
-        featuredGames,
-        mlbbVariants,
-        availableGames,
-        publishers,
-        regionalGames,
-
-        // 🔥 OTT SECTION
-        // otts: {
-        //   title: "OTT & Social Subscriptions",
-        //   items: OTTS.filter((o) => o.available),
-        //   total: OTTS.filter((o) => o.available).length,
-        // },
-        // 🔥 MEMBERSHIP SECTION
-        // memberships: {
-        //   title: "Memberships & Passes",
-        //   items: MEMBERSHIPS.filter((m) => m.available),
-        //   total: MEMBERSHIPS.filter((m) => m.available).length,
-        // },
-
+        // 🔥 EXTRA CATEGORIES
+        otts: {
+          title: "Streaming Subscriptions",
+          items: OTTS.filter((o) => o.available),
+          total: OTTS.filter((o) => o.available).length,
+        },
+        memberships: {
+          title: "Premium Memberships",
+          items: MEMBERSHIPS.filter((m) => m.available),
+          total: MEMBERSHIPS.filter((m) => m.available).length,
+        },
       },
     });
   } catch (error) {

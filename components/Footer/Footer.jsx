@@ -71,7 +71,7 @@ export default function Footer() {
 
 
   return (
-    <footer className="bg-black/40 backdrop-blur-3xl border-t border-white/5 relative overflow-hidden">
+    <footer className="bg-[var(--card)]/40 backdrop-blur-3xl border-t border-[var(--border)] relative overflow-hidden">
       {/* Subtle Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--accent)]/5 pointer-events-none" />
 
@@ -80,7 +80,7 @@ export default function Footer() {
           {/* BRAND BLOCK */}
           <div className="md:col-span-2 lg:col-span-2 space-y-3">
             <h2 className="text-2xl font-black tracking-tighter">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent)] to-purple-500">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent)] to-orange-400">
                 {BRAND.name}
               </span>
             </h2>
