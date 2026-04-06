@@ -84,7 +84,7 @@ export default function AuthPage() {
         className="
           relative z-10 w-full max-w-[380px]
           rounded-[2.5rem]
-          bg-white/[0.01] backdrop-blur-[40px]
+          bg-[var(--card)] backdrop-blur-[40px]
           border border-white/10
           shadow-[0_40px_100px_rgba(0,0,0,0.4)]
           overflow-hidden
@@ -100,7 +100,7 @@ export default function AuthPage() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="mb-8 relative flex items-center justify-center w-20 h-20 rounded-2xl bg-white/5 border border-white/10 shadow-inner group overflow-hidden"
+            className="mb-8 relative flex items-center justify-center w-20 h-20 bg-[var(--card)] border border-[var(--border)] shadow-inner group overflow-hidden rounded-2xl"
           >
             <div className="relative w-12 h-12">
               <Image 
@@ -119,7 +119,7 @@ export default function AuthPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-3xl font-black tracking-tight text-white/90"
+              className="text-3xl font-black tracking-tight text-[var(--foreground)]"
             >
               Sign In
             </motion.h1>
@@ -127,7 +127,7 @@ export default function AuthPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-white/40 text-xs font-semibold leading-relaxed px-2"
+              className="text-[var(--foreground)] opacity-60 text-xs font-semibold leading-relaxed px-2"
             >
               The most secure way to handle your gaming top-ups and rewards.
             </motion.p>
@@ -168,14 +168,14 @@ export default function AuthPage() {
               transition={{ delay: 0.5 }}
               className="relative group w-full"
             >
-              <div className="absolute -inset-1 bg-white/5 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-all duration-700" />
+              <div className="absolute -inset-1 bg-[var(--accent)]/5 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-all duration-700" />
               
               <button 
                 onClick={() => login()}
                 className="
                   relative flex items-center justify-center gap-4 w-full h-[56px] 
-                  bg-white/[0.05] hover:bg-white/[0.1]
-                  border border-white/10 hover:border-white/20
+                  bg-[var(--card)] hover:bg-[var(--card)]/80
+                  border border-[var(--border)] hover:border-[var(--accent)]/50
                   rounded-2xl transition-all duration-300
                   active:scale-[0.98]
                 "
@@ -183,7 +183,7 @@ export default function AuthPage() {
                 <div className="bg-white p-2 rounded-lg shadow-lg">
                   <FcGoogle className="text-xl" />
                 </div>
-                <span className="text-white text-sm font-bold tracking-wide">Continue with Google</span>
+                <span className="text-[var(--foreground)] text-sm font-bold tracking-wide">Continue with Google</span>
               </button>
             </motion.div>
 
@@ -204,9 +204,9 @@ export default function AuthPage() {
             {/* Footer Divider */}
             <div className="relative py-2">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full h-[1px] bg-white/5"></div>
+                <div className="w-full h-[1px] bg-[var(--border)] opacity-30"></div>
               </div>
-              <div className="relative flex justify-center text-[8px] tracking-[0.4em] uppercase font-black text-white/10">
+              <div className="relative flex justify-center text-[8px] tracking-[0.4em] uppercase font-black text-[var(--foreground)] opacity-20">
                 <span className="px-4 bg-transparent backdrop-blur-none">SECURED & CLOUD-LINKED</span>
               </div>
             </div>
@@ -219,7 +219,7 @@ export default function AuthPage() {
 
       {/* Background Decorative Branding - Subtle */}
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 select-none opacity-[0.01] pointer-events-none">
-        <h2 className="text-[12vw] font-black tracking-tighter whitespace-nowrap text-white">TK OFFICIAL</h2>
+        <h2 className="text-[12vw] font-black tracking-tighter whitespace-nowrap text-[var(--foreground)]">TK OFFICIAL</h2>
       </div>
     </section>
   );
