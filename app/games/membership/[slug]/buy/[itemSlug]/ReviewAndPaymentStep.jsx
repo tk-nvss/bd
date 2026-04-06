@@ -29,7 +29,7 @@ export default function ReviewAndPaymentStep({
   const [upiQR, setUpiQR] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
 
-  const isWalletAuthorized = userType === "member" || userType === "owner" || userType === "admin";
+  const isWalletAuthorized = userType === "user" || userType === "member" || userType === "owner" || userType === "admin";
 
   // Generate UPI QR
   const handleUPI = async () => {
@@ -193,7 +193,7 @@ export default function ReviewAndPaymentStep({
               ) : (
                 <div className="p-4 rounded-xl border border-[var(--border)] bg-black/10 text-center">
                   <p className="text-[var(--muted)] text-xs">
-                    Wallet payment is exclusive to <strong>Members</strong>, <strong>Owners</strong>, and <strong>Admins</strong>.
+                    Wallet payment is exclusive to <strong>Users</strong>, <strong>Members</strong>, <strong>Owners</strong>, and <strong>Admins</strong>.
                   </p>
                 </div>
               )}
@@ -212,8 +212,8 @@ export default function ReviewAndPaymentStep({
                     <FiCreditCard size={20} />
                   </div>
                   <div>
-                    <p className="font-bold text-sm">UPI Gateway</p>
-                    <p className="text-[10px] text-[var(--muted)]">GPay, PhonePe, Paytm & More</p>
+                    <p className="font-bold text-sm">bKash Payment Gateway</p>
+                    <p className="text-[10px] text-[var(--muted)]">bKash, Nagad, Rocket, Upay</p>
                   </div>
                 </div>
                 {paymentMethod === 'upi' && <div className="h-5 w-5 rounded-full bg-[var(--accent)] flex items-center justify-center"><div className="w-2 h-2 rounded-full bg-black" /></div>}

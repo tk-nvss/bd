@@ -32,10 +32,10 @@ export async function POST(req: Request) {
 
     /* ---------- WALLET RECHARGE ---------- */
     const userType = decoded.userType || "user";
-    if (userType !== "member" && userType !== "owner" && userType !== "admin") {
+    if (userType !== "user" && userType !== "member" && userType !== "owner" && userType !== "admin") {
       return NextResponse.json({
         success: false,
-        message: "Wallet recharge is only available for admins, members and owners.",
+        message: "Wallet recharge is only available for admins, members, owners and users.",
       });
     }
 

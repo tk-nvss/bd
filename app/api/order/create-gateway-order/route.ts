@@ -268,10 +268,10 @@ export async function POST(req: Request) {
 
     /* ---------- WALLET PAYMENT LOGIC ---------- */
     if (paymentMethod === "wallet") {
-      if (userType !== "member" && userType !== "owner" && userType !== "admin") {
+      if (userType !== "user" && userType !== "member" && userType !== "owner" && userType !== "admin") {
         return NextResponse.json({
           success: false,
-          message: "Wallet payment is only available for admins, members and owners.",
+          message: "Wallet payment is only available for admins, members, owners and users.",
         });
       }
 

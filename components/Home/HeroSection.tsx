@@ -32,7 +32,7 @@ export default function HeroSection() {
 
   return (
     <>
-      <TopNoticeBanner />
+      {/* <TopNoticeBanner /> */}
 
       <GameBannerCarousel />
       {/* <ScrollingNoticeBand /> */}
@@ -44,7 +44,7 @@ export default function HeroSection() {
       {/* <ScrollingNoticeBand /> */}
 
 
-      <HomeServices />
+      {/* <HomeServices /> */}
       <TrustHighlights />
       {/* <AboutMewoji /> */}
 

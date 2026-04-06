@@ -243,8 +243,8 @@ export default function WalletTab({
                       <FiZap className="text-base" />
                     </div>
                     <div className="text-left">
-                      <p className="text-xs font-bold">UPI</p>
-                      <p className="text-[8px] text-[var(--muted)] font-medium">Instant</p>
+                      <p className="text-xs font-bold">Mobile Banking</p>
+                      <p className="text-[8px] text-[var(--muted)] font-medium">bKash, Nagad, Rocket</p>
                     </div>
                     {method === "upi" && <motion.div layoutId="m-active" className="absolute right-4"><FiCheckCircle className="text-[var(--accent)]" /></motion.div>}
                   </button>

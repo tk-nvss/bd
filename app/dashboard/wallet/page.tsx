@@ -42,7 +42,7 @@ export default function WalletPage() {
         );
     }
 
-    const isAuthorized = userType === "member" || userType === "owner" || userType === "admin";
+    const isAuthorized = userType === "user" || userType === "member" || userType === "owner" || userType === "admin";
 
     return (
         <AuthGuard>
@@ -60,7 +60,7 @@ export default function WalletPage() {
                         <div className="bg-[var(--card)] p-8 rounded-2xl border border-[var(--border)] text-center shadow-2xl">
                             <h2 className="text-2xl font-bold mb-4">Access Restricted</h2>
                             <p className="text-[var(--muted)] mb-6">
-                                The wallet feature is only available for <strong>Members</strong>, <strong>Owners</strong>, and <strong>Admins</strong>.
+                                The wallet feature is only available for <strong>Users</strong>, <strong>Members</strong>, <strong>Owners</strong>, and <strong>Admins</strong>.
                             </p>
                             <button
                                 onClick={() => window.location.href = "/"}
