@@ -41,6 +41,7 @@ const OrderSchema = new mongoose.Schema(
     /* ================= API SPECIFIC ================= */
     idempotencyKey: { type: String, sparse: true, index: true },
     gatewayOrderId: { type: String, index: true },
+    gatewayTransactionId: { type: String, index: true },
     gatewayResponse: mongoose.Schema.Types.Mixed,
     externalResponse: mongoose.Schema.Types.Mixed,
   },

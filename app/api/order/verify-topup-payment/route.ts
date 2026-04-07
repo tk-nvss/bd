@@ -189,16 +189,23 @@ export async function POST(req: Request) {
       }
 
       /* =====================================================
-         STRICT PRICE CHECK
+         STRICT PRICE & ORDER CHECK (FRAUD PREVENTION)
       ===================================================== */
       const paidAmount = Number(data?.amount || data?.data?.amount);
-      console.log("PRICE CHECK:", { orderId, expected: order.price, paid: paidAmount });
+      const paidOrderId = data?.metadata?.orderId;
+      
+      console.log("SECURITY CHECK:", { 
+        orderId, 
+        expectedPrice: order.price, 
+        paidAmount, 
+        metadataOrderId: paidOrderId 
+      });
 
+      // 1. Check Amount
       if (!paidAmount || Math.abs(paidAmount - Number(order.price)) > 1) {
         console.error("FRAUD ALERT: PRICE MISMATCH", { orderId, expected: order.price, paid: paidAmount });
         order.status = "fraud";
         order.paymentStatus = "failed";
-        order.topupStatus = "failed";
         order.gatewayResponse = data;
         await order.save();
 
@@ -208,10 +215,28 @@ export async function POST(req: Request) {
         });
       }
 
+      // 2. Check Metadata Order ID (if provided)
+      if (paidOrderId && paidOrderId !== order.orderId) {
+        console.error("FRAUD ALERT: METADATA ORDER ID MISMATCH", { orderId, metadataOrderId: paidOrderId });
+        order.status = "fraud";
+        order.paymentStatus = "failed";
+        order.gatewayResponse = data;
+        await order.save();
+
+        return NextResponse.json({
+          success: false,
+          message: "Fraudulent payment detected (Metadata Mismatch)",
+        });
+      }
+
+      // Everything looks good!
       order.paymentStatus = "success";
       order.gatewayResponse = data;
-      // Also save invoiceId if it was first seen here
+      
+      // Store IDs from ZiniPay
       if (!order.gatewayOrderId) order.gatewayOrderId = invoiceId;
+      if (data.transaction_id) order.gatewayTransactionId = data.transaction_id;
+
       await order.save();
       console.log("PAYMENT VERIFIED SUCCESS:", orderId);
     }
