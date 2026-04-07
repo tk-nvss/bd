@@ -362,11 +362,11 @@ export async function POST(req: Request) {
 
     // ✅ Always save the gateway response for debugging/tracing
     newOrder.gatewayResponse = data;
-    if (data.invoiceId) {
-      newOrder.gatewayOrderId = data.invoiceId;
+    if (data.val_id) {
+      newOrder.gatewayOrderId = data.val_id;
     }
     await newOrder.save();
-    console.log("ORDER UPDATED WITH GATEWAY DATA:", { orderId, success: data.status, invoiceId: data.invoiceId });
+    console.log("ORDER UPDATED WITH GATEWAY DATA:", { orderId, success: data.status, invoiceId: data.val_id });
 
     if (!data?.status) {
       return NextResponse.json({
