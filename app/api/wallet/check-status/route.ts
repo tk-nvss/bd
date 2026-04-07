@@ -77,8 +77,10 @@ export async function POST(req: Request) {
 
     /* ---------- CHECK GATEWAY STATUS (ZiniPay V1) ---------- */
     const { invoiceId: bodyInvoiceId } = await req.json();
-    const invoiceId = bodyInvoiceId || transaction.gatewayTxnId || orderId;
+    const invoiceId = bodyInvoiceId || transaction.gatewayOrderId || orderId;
     const ziniApiKey = process.env.XTRA_USER_TOKEN!;
+    
+    console.log("VERIFYING WALLET RECHARGE:", { orderId, invoiceId });
 
     const resp = await fetch("https://api.zinipay.com/v1/payment/verify", {
       method: "POST",
@@ -93,14 +95,19 @@ export async function POST(req: Request) {
     });
 
     const data = await resp.json();
-    console.log("Gateway Response V1 for Wallet:", data);
+    console.log("ZINIPAY WALLET VERIFY RESPONSE:", data);
 
     const gatewaySuccess = data?.status === "COMPLETED" || data?.status === "SUCCESS";
+
+    // ✅ Store the response even on failure
+    transaction.gatewayResponse = data;
+    if (data.transaction_id) transaction.gatewayTransactionId = data.transaction_id;
 
     if (!gatewaySuccess) {
       // Rollback status so user can try again later
       transaction.status = "pending";
       await transaction.save();
+      console.log("WALLET RECHARGE FAILED/PENDING:", { orderId, dataStatus: data.status });
       return NextResponse.json({
         success: false,
         message: "Payment is still pending (" + (data.status || "FAILED") + ")",
@@ -108,6 +115,20 @@ export async function POST(req: Request) {
     }
 
     const amount = Number(data?.amount || data?.data?.amount || 0);
+
+    /* =====================================================
+       SECURITY CHECK: META USER MATCH
+    ===================================================== */
+    const metaUserId = data?.metadata?.userId;
+    if (metaUserId && metaUserId !== userId) {
+      console.error("FRAUD ALERT: WALLET RECHARGE USER MISMATCH", { userId, metaUserId });
+      transaction.status = "failed";
+      await transaction.save();
+      return NextResponse.json({
+        success: false,
+        message: "Fraudulent wallet recharge detected (User Mismatch)",
+      });
+    }
 
     if (!amount) {
       transaction.status = "pending";

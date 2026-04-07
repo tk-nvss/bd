@@ -43,6 +43,11 @@ const WalletTransactionSchema = new mongoose.Schema(
             type: String,
             ref: "Order",
         },
+        /* ================= GATEWAY & API ================= */
+        gatewayOrderId: String,
+        gatewayTransactionId: String,
+        gatewayResponse: mongoose.Schema.Types.Mixed,
+        externalResponse: mongoose.Schema.Types.Mixed,
     },
     { timestamps: true }
 );

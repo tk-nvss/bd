@@ -40,7 +40,9 @@ export async function POST(req: Request) {
     }
 
     const userId = decoded.userId;
-    const { amount, mobile } = await req.json();
+    const body = await req.json();
+    console.log("WALLET RECHARGE REQUEST:", { ...body, userId });
+    const { amount, mobile } = body;
 
     if (!amount || amount <= 0) {
       return NextResponse.json({ success: false, message: "Invalid amount" });
@@ -63,6 +65,8 @@ export async function POST(req: Request) {
       paymentMethod: "gateway",
       description: `Wallet recharge via UPI`,
     });
+
+    console.log("WALLET TRANSACTION CREATED:", { transactionId, amount, userId });
 
     /* ---------- PAYMENT GATEWAY (ZiniPay V1 API) ---------- */
     const ziniApiKey = process.env.XTRA_USER_TOKEN!;
@@ -92,6 +96,7 @@ export async function POST(req: Request) {
     });
 
     const data = await resp.json();
+    console.log("ZINIPAY WALLET CREATE RESPONSE:", data);
 
     if (!data?.status) {
       return NextResponse.json({
@@ -100,13 +105,15 @@ export async function POST(req: Request) {
       });
     }
 
-    // Capture Invoice ID if provided
-    if (data.invoiceId) {
-      const tx = await WalletTransaction.findOne({ transactionId });
-      if (tx) {
-        tx.gatewayTxnId = data.invoiceId;
-        await tx.save();
+    // ✅ Store gateway details even if success=false (for tracing)
+    const tx = await WalletTransaction.findOne({ transactionId });
+    if (tx) {
+      tx.gatewayResponse = data;
+      if (data.val_id) {
+        tx.gatewayOrderId = data.val_id;
       }
+      await tx.save();
+      console.log("WALLET TRANSACTION UPDATED WITH GATEWAY DATA:", { transactionId, val_id: data.val_id });
     }
 
     return NextResponse.json({
