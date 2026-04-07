@@ -218,7 +218,7 @@ export default function ReviewAndPaymentStep({
                     <FiCreditCard size={20} />
                   </div>
                   <div>
-                    <p className="font-bold text-sm">bKash Payment Gateway</p>
+                    <p className="font-bold text-sm">Payment Gateway</p>
                     <p className="text-[10px] text-[var(--muted)]">bKash, Nagad, Rocket, Upay</p>
                   </div>
                 </div>

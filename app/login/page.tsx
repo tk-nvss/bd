@@ -114,22 +114,22 @@ export default function AuthPage() {
           </motion.div>
 
           {/* Texts */}
-          <div className="space-y-2 mb-8">
+          <div className="space-y-1 mb-8">
             <motion.h1 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-3xl font-black tracking-tight text-[var(--foreground)]"
+              className="text-4xl font-black text-[var(--foreground)]"
             >
-              Sign In
+              Login
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-[var(--foreground)] opacity-60 text-xs font-semibold leading-relaxed px-2"
+              className="text-[var(--foreground)] opacity-70 text-sm font-medium"
             >
-              The most secure way to handle your gaming top-ups and rewards.
+              Safe and fast game top-up.
             </motion.p>
           </div>
 
@@ -183,7 +183,7 @@ export default function AuthPage() {
                 <div className="bg-white p-2 rounded-lg shadow-lg">
                   <FcGoogle className="text-xl" />
                 </div>
-                <span className="text-[var(--foreground)] text-sm font-bold tracking-wide">Continue with Google</span>
+                <span className="text-[var(--foreground)] text-sm font-bold tracking-wide">Login with Google</span>
               </button>
             </motion.div>
 
@@ -201,13 +201,12 @@ export default function AuthPage() {
               </motion.div>
             )}
 
-            {/* Footer Divider */}
             <div className="relative py-2">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full h-[1px] bg-[var(--border)] opacity-30"></div>
               </div>
               <div className="relative flex justify-center text-[8px] tracking-[0.4em] uppercase font-black text-[var(--foreground)] opacity-20">
-                <span className="px-4 bg-transparent backdrop-blur-none">SECURED & CLOUD-LINKED</span>
+                <span className="px-4 bg-transparent backdrop-blur-none">SECURE & FAST</span>
               </div>
             </div>
           </div>

@@ -293,6 +293,7 @@ export default function GamesPage() {
             {[
               { id: "ALL", label: "All", icon: FiGrid },
               { id: "GAMES", label: "Games Top-Up", icon: FiZap },
+              { id: "MLBB", label: "MLBB", icon: FiTrendingUp },
               { id: "GIFTS", label: "Gift Cards", icon: FiBox },
               { id: "OTT", label: "OTT Subscriptions", icon: FiTv },
             ].map((cat) => {
@@ -320,20 +321,21 @@ export default function GamesPage() {
       {/* ================= CONTENT ================= */}
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-24">
         
-        {/* GAMES SECTION (SHOW FOR ALL, GAMES, GIFTS) */}
-        {(activeCategory === "ALL" || activeCategory === "GAMES" || activeCategory === "GIFTS") && (
+        {/* GAMES SECTION (SHOW FOR ALL, GAMES, MLBB, GIFTS) */}
+        {(activeCategory === "ALL" || activeCategory === "GAMES" || activeCategory === "MLBB" || activeCategory === "GIFTS") && (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
             <SectionHeader
-              title={activeCategory === "GIFTS" ? "GIFT CARDS" : activeCategory === "GAMES" ? "GAMES TOP-UP" : "SELECT PRODUCT"}
+              title={activeCategory === "GIFTS" ? "GIFT CARDS" : activeCategory === "GAMES" ? "GAMES TOP-UP" : activeCategory === "MLBB" ? "MOBILE LEGENDS" : "SELECT PRODUCT"}
               count={
                 processGames(games).filter(g => {
                   if (activeCategory === "ALL") return true; 
                   if (activeCategory === "GAMES") return true; 
-                  if (activeCategory === "GIFTS") return g.storeCategory === "CARDS"; // Assume CARDS for future gift cards
+                  if (activeCategory === "MLBB") return g.gameName.toLowerCase().includes("mobile legends") || g.gameName.toLowerCase().includes("mlbb");
+                  if (activeCategory === "GIFTS") return g.storeCategory === "CARDS"; 
                   return false;
                 }).length
               }
@@ -344,6 +346,7 @@ export default function GamesPage() {
                 .filter(g => {
                   if (activeCategory === "ALL") return true;
                   if (activeCategory === "GAMES") return true;
+                  if (activeCategory === "MLBB") return g.gameName.toLowerCase().includes("mobile legends") || g.gameName.toLowerCase().includes("mlbb");
                   if (activeCategory === "GIFTS") return g.storeCategory === "CARDS";
                   return false;
                 })
