@@ -199,6 +199,7 @@ export async function POST(req: Request) {
 
     /* ---------- BODY ---------- */
     const body = await req.json();
+    console.log("CREATE GATEWAY ORDER REQUEST:", { ...body, userId, userType });
 
     const {
       gameSlug,
@@ -234,6 +235,7 @@ export async function POST(req: Request) {
 
     /* ---------- SERVER PRICE ---------- */
     const price = await resolvePrice(gameSlug, itemSlug, userType);
+    console.log("RESOLVED PRICE:", { gameSlug, itemSlug, userType, price });
 
     /* ---------- ORDER ID ---------- */
     const orderId =
@@ -265,6 +267,8 @@ export async function POST(req: Request) {
       isManual: isManual || false,
       expiresAt,
     });
+
+    console.log("ORDER CREATED IN DB:", { orderId, isManual, price });
 
     /* ---------- WALLET PAYMENT LOGIC ---------- */
     if (paymentMethod === "wallet") {
@@ -301,6 +305,7 @@ export async function POST(req: Request) {
       newOrder.paymentStatus = "success";
       newOrder.status = "pending";
       await newOrder.save();
+      console.log("WALLET PAYMENT SUCCESSFUL:", { orderId, userId, price });
 
       // Create transaction log
       await WalletTransaction.create({
@@ -353,18 +358,21 @@ export async function POST(req: Request) {
     });
 
     const data = await resp.json();
+    console.log("ZINIPAY CREATE RESPONSE:", data);
+
+    // ✅ Always save the gateway response for debugging/tracing
+    newOrder.gatewayResponse = data;
+    if (data.invoiceId) {
+      newOrder.gatewayOrderId = data.invoiceId;
+    }
+    await newOrder.save();
+    console.log("ORDER UPDATED WITH GATEWAY DATA:", { orderId, success: data.status, invoiceId: data.invoiceId });
 
     if (!data?.status) {
       return NextResponse.json({
         success: false,
         message: data?.message || "Payment gateway error",
       });
-    }
-
-    // Capture Invoice ID if provided in response for future verification
-    if (data.invoiceId) {
-      newOrder.gatewayOrderId = data.invoiceId;
-      await newOrder.save();
     }
 
     return NextResponse.json({

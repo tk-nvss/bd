@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const url = `${process.env.NEXT_PUBLIC_API_BASE}/api-service/balance?currency=USD`;
-    console.log("FETCHING BALANCE FROM:", url);
+    // console.log("FETCHING BALANCE FROM:", url);
 
     const resp = await fetch(url, {
       method: "GET",
@@ -13,7 +13,7 @@ export async function GET() {
     });
 
     const data = await resp.json();
-    console.log("BALANCE API RAW RESPONSE:", data);
+    // console.log("BALANCE API RAW RESPONSE:", data);
 
     // If data is an object, check for data.data.balance or data.balance
     let rawBalance = data?.data?.balance ?? data?.balance ?? 0;
@@ -23,7 +23,7 @@ export async function GET() {
       ? parseFloat(rawBalance.replace(/[^\d.-]/g, ''))
       : (typeof rawBalance === 'number' ? rawBalance : 0);
 
-    console.log("EXTRACTED BALANCE VALUE:", balanceValue);
+    // console.log("EXTRACTED BALANCE VALUE:", balanceValue);
 
     return NextResponse.json({ success: true, balance: balanceValue });
   } catch (error: any) {
