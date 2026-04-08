@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 
 /* ================= IMAGES ================= */
 const MLBB_MAIN_IMAGE = "/game-assets/india-mlbb.jpg";
-const MLBB_SMALL_IMAGE = "/game-assets/mlbb-small.jpg";
-const MLBB_SG_MY_IMAGE = "/game-assets/allregion.jpg";
+const MLBB_SMALL_IMAGE = "/game-assets/mlbb-small.png";
+const MLBB_SG_MY_IMAGE = "/game-assets/mlbb-global.png";
+const MLBB_GLOBAL_IMAGE = "/game-assets/mlbb-globbal.png";
 
 /* ================= OTT SECTION ================= */
 const OTTS = [
@@ -91,6 +92,12 @@ export async function GET() {
         updatedGame.gameImageId = {
           ...updatedGame.gameImageId,
           image: MLBB_SG_MY_IMAGE,
+        };
+      }
+      if (updatedGame.gameSlug === "mlbbglobal202") {
+        updatedGame.gameImageId = {
+          ...updatedGame.gameImageId,
+          image: MLBB_GLOBAL_IMAGE,
         };
       }
 
