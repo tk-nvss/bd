@@ -143,10 +143,10 @@ export default function Header() {
               whileTap={{ scale: 0.95 }}
               className="relative w-20 h-10 flex items-center justify-center transition-all duration-300 drop-shadow-[0_0_12px_var(--glow)] [html[data-theme='light']_&]:drop-shadow-[0_2px_12px_rgba(0,0,0,0.1)]"
             >
-              <Image 
-                src={logo} 
-                alt="Logo" 
-                fill 
+              <Image
+                src={logo}
+                alt="Logo"
+                fill
                 className="object-contain transition-all duration-300 filter group-hover:brightness-110 [html[data-theme='light']_&]:drop-shadow-[0_0_1px_rgba(0,0,0,0.5)] [html[data-theme='light']_&]:brightness-90"
               />
             </motion.div>
@@ -180,7 +180,7 @@ export default function Header() {
 
         {/* ACTIONS SECTION */}
         <div className="flex items-center gap-2 sm:gap-3" ref={dropdownRef}>
-          {user && (
+          {/* {user && (
             <Link
               href="/dashboard/wallet"
               className="flex items-center gap-1.5 bg-[var(--accent)]/10 border border-[var(--accent)]/30 px-2 py-1.5 rounded-full hover:bg-[var(--accent)]/20 transition-all group shrink-0 shadow-sm"
@@ -190,7 +190,7 @@ export default function Header() {
               </div>
               <span className="text-xs font-bold text-[var(--accent)]">{CONFIG.CURRENCY_SYMBOL}{user.wallet?.toFixed(2) || "0.00"}</span>
             </Link>
-          )}
+          )} */}
 
           <ThemeToggle />
 
@@ -317,7 +317,7 @@ export default function Header() {
                         {[
                           { label: "Dashboard", icon: FiLayout, href: "/dashboard" },
                           { label: "Orders", icon: FiLayers, href: "/dashboard/order" },
-                          { label: "Wallet", icon: FiPlus, href: "/dashboard/wallet" },
+                          // { label: "Wallet", icon: FiPlus, href: "/dashboard/wallet" },
                           { label: "Support", icon: FiLifeBuoy, href: "/dashboard/query" },
                           { label: "Leaderboard", icon: FiBarChart2, href: "/leaderboard" },
                         ].map((link) => (

@@ -194,7 +194,7 @@ export default function AdminPanalPage() {
 
 
           <div className="mb-5 flex flex-wrap gap-2">
-            {["users", "orders", "wallet", "transactions", "queries", "pricing", "banners", "settings"].map(
+            {["users", "orders", "transactions", "queries", "pricing", "banners", "settings"].map(
               (tab) => {
                 const isActive = activeTab === tab;
 
