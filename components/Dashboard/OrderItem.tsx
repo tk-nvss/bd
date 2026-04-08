@@ -46,6 +46,11 @@ const getGameName = (slug: string) => {
   return slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 };
 
+const formatPaymentMethod = (method: string) => {
+  if (!method) return "N/A";
+  return method.toLowerCase() === "upi" ? "zinipay" : method.toUpperCase();
+};
+
 /* ================= MAIN ================= */
 
 export default function OrderItem({ order }: { order: OrderType }) {
@@ -148,7 +153,7 @@ export default function OrderItem({ order }: { order: OrderType }) {
                   <DetailBox label="Game" value={getGameName(order.gameSlug)} icon={<FiPackage />} />
                   <DetailBox label="Player ID" value={order.playerId} mono icon={<FiUser />} />
                   <DetailBox label="Zone ID" value={order.zoneId} mono icon={<FiGrid />} />
-                  <DetailBox label="Payment" value={order.paymentMethod.toUpperCase()} icon={<FiCreditCard />} />
+                  <DetailBox label="Payment" value={formatPaymentMethod(order.paymentMethod)} icon={<FiCreditCard />} />
                 </div>
 
 
@@ -200,7 +205,7 @@ GAME:      ${getGameName(order.gameSlug)}
 PLAYER:    ${order.playerId}
 ZONE:      ${order.zoneId}
 ITEM:      ${order.itemName}
-PAYMENT:   ${order.paymentMethod.toUpperCase()}
+PAYMENT:   ${formatPaymentMethod(order.paymentMethod)}
 DATE:      ${new Date(order.createdAt).toLocaleString()}
 STATUS:    SUCCESS
 --------------------------

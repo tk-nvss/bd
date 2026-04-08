@@ -149,7 +149,7 @@ export default function GamesPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
 
             {/* TAG */}
-            {!disabled && game.tagId && (
+            {/* {!disabled && game.tagId && (
               <div className="absolute top-2 left-2 z-20">
                 <span
                   className="text-[8px] md:text-[9px] px-2 py-0.5 rounded-lg font-black uppercase tracking-widest backdrop-blur-md border border-white/20 shadow-xl inline-flex items-center gap-1"
@@ -162,7 +162,7 @@ export default function GamesPage() {
                   {game.tagId.tagName}
                 </span>
               </div>
-            )}
+            )} */}
 
             {/* STOCK INDICATOR */}
             {disabled && (
@@ -237,7 +237,7 @@ export default function GamesPage() {
       {/* ================= FILTER BAR (CINEMATIC GLASS) ================= */}
       <div className="sticky top-0 md:top-[48px] z-40">
         <div className="absolute inset-0 bg-[var(--card)]/30 backdrop-blur-3xl border-b border-[var(--border)] shadow-2xl shadow-black/5" />
-        
+
         {/* SEARCH & ACTIONS */}
         <div className="relative max-w-7xl mx-auto px-4 py-2.5 flex items-center gap-2 md:gap-4">
           {/* SEARCH */}
@@ -304,10 +304,10 @@ export default function GamesPage() {
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border font-black text-[9px] uppercase tracking-[0.1em] transition-all duration-300
-                            ${isActive 
-                              ? "bg-[var(--accent)]/20 border-[var(--accent)] text-[var(--accent)] shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]" 
-                              : "bg-transparent border-transparent text-[var(--muted)] hover:bg-white/5 hover:text-[var(--foreground)]"
-                            }`}
+                            ${isActive
+                      ? "bg-[var(--accent)]/20 border-[var(--accent)] text-[var(--accent)] shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]"
+                      : "bg-transparent border-transparent text-[var(--muted)] hover:bg-white/5 hover:text-[var(--foreground)]"
+                    }`}
                 >
                   <Icon size={12} />
                   {cat.label}
@@ -320,7 +320,7 @@ export default function GamesPage() {
 
       {/* ================= CONTENT ================= */}
       <div className="max-w-7xl mx-auto px-4 py-16 space-y-24">
-        
+
         {/* GAMES SECTION (SHOW FOR ALL, GAMES, MLBB, GIFTS) */}
         {(activeCategory === "ALL" || activeCategory === "GAMES" || activeCategory === "MLBB" || activeCategory === "GIFTS") && (
           <motion.div
@@ -332,10 +332,10 @@ export default function GamesPage() {
               title={activeCategory === "GIFTS" ? "GIFT CARDS" : activeCategory === "GAMES" ? "GAMES TOP-UP" : activeCategory === "MLBB" ? "MOBILE LEGENDS" : "SELECT PRODUCT"}
               count={
                 processGames(games).filter(g => {
-                  if (activeCategory === "ALL") return true; 
-                  if (activeCategory === "GAMES") return true; 
+                  if (activeCategory === "ALL") return true;
+                  if (activeCategory === "GAMES") return true;
                   if (activeCategory === "MLBB") return g.gameName.toLowerCase().includes("mobile legends") || g.gameName.toLowerCase().includes("mlbb");
-                  if (activeCategory === "GIFTS") return g.storeCategory === "CARDS"; 
+                  if (activeCategory === "GIFTS") return g.storeCategory === "CARDS";
                   return false;
                 }).length
               }

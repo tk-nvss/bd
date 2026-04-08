@@ -38,6 +38,11 @@ export default function TransactionsTab() {
     totalPages: 1,
   });
 
+  const formatPaymentMethod = (method) => {
+    if (!method) return "N/A";
+    return method.toLowerCase() === "upi" ? "zinipay" : method;
+  };
+
   useEffect(() => {
     fetchTransactions();
   }, [page, limit, search]);
@@ -368,7 +373,7 @@ export default function TransactionsTab() {
                 </DrawerSection>
 
                 <DrawerSection icon={<CreditCard size={16} />} title="Payment Details">
-                  <DrawerDetail label="Method" value={selectedTx.paymentMethod} />
+                  <DrawerDetail label="Method" value={formatPaymentMethod(selectedTx.paymentMethod)} />
                   <DrawerDetail label="Payment Status" value={selectedTx.paymentStatus} emphasize />
                   <DrawerDetail label="Topup Status" value={selectedTx.topupStatus} />
                 </DrawerSection>

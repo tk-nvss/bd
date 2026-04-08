@@ -59,6 +59,11 @@ export default function OrdersTab() {
   });
   const [statsLoading, setStatsLoading] = useState(false);
 
+  const formatPaymentMethod = (method) => {
+    if (!method) return "N/A";
+    return method.toLowerCase() === "upi" ? "zinipay" : method;
+  };
+
   useEffect(() => {
     fetchOrders();
   }, [page, limit, search, filters]);
@@ -372,7 +377,7 @@ export default function OrdersTab() {
                         </td>
                         <td className="px-6 py-4">
                           <span className="text-[10px] font-bold text-[var(--accent)] uppercase px-2 py-1 rounded-lg bg-[var(--accent)]/10 border border-[var(--accent)]/10">
-                            {o.paymentMethod || "N/A"}
+                            {formatPaymentMethod(o.paymentMethod)}
                           </span>
                         </td>
                         <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
@@ -435,7 +440,7 @@ export default function OrdersTab() {
                           </div>
                           <div className="flex items-center gap-1.5">
                             <span className="text-[8px] font-black text-[var(--accent)] uppercase px-1.5 py-0.5 rounded-md bg-[var(--accent)]/10 border border-[var(--accent)]/10">
-                              {o.paymentMethod || "N/A"}
+                              {formatPaymentMethod(o.paymentMethod)}
                             </span>
                           </div>
                         </div>
@@ -564,7 +569,7 @@ export default function OrdersTab() {
                 </DrawerSection>
 
                 <DrawerSection icon={<CreditCard size={16} />} title="Payment Details">
-                  <DrawerDetail label="Payment Method" value={selectedOrder.paymentMethod} />
+                  <DrawerDetail label="Payment Method" value={formatPaymentMethod(selectedOrder.paymentMethod)} />
                   <DrawerDetail label="Payment Status" value={selectedOrder.paymentStatus} emphasize />
                   <DrawerDetail label="Topup Status" value={selectedOrder.topupStatus} />
                 </DrawerSection>
