@@ -199,7 +199,7 @@ export default function PricingTab({
               <h3 className="text-xs font-bold text-[var(--muted)]">Target Roles</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              {["user", "admin"].map((type) => (
+              {["user"].map((type) => (
                 <button
                   key={type}
                   onClick={() => setPricingType(type)}
