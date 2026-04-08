@@ -74,7 +74,7 @@ export default function PricingTab({
     try {
       const items = await fetchItemsForGame(gameSlug);
       const targetSlug = gameSlug.toLowerCase();
-      
+
       const hydrated = items.map((item) => {
         const existing = overrides.find(
           (o) => (o.gameSlug || "").toLowerCase() === targetSlug && (o.itemSlug || "").toLowerCase() === (item.itemSlug || "").toLowerCase()
@@ -86,13 +86,13 @@ export default function PricingTab({
           fixedPrice: existing?.fixedPrice ?? Number(item.sellingPrice) ?? 0,
         };
       });
-      
+
       // Preserve other games' overrides while updating current game (case-insensitive)
       setOverrides((prev) => {
         const others = prev.filter(o => (o.gameSlug || "").toLowerCase() !== targetSlug);
         return [...others, ...hydrated];
       });
-      
+
       setFixedItemFilter("");
     } finally {
       setLoadingFixedPrices(false);
@@ -108,7 +108,7 @@ export default function PricingTab({
   const visibleOverrides = useMemo(() => {
     if (!fixedGameFilter) return [];
     const filterSlug = fixedGameFilter.toLowerCase();
-    
+
     return overrides.filter((o) => {
       const oSlug = (o.gameSlug || "").toLowerCase();
       // Strict matching for the selected game
@@ -122,12 +122,12 @@ export default function PricingTab({
     const next = [...overrides];
     const targetGame = (fixedGameFilter || "").toLowerCase();
     const targetItem = (itemSlug || "").toLowerCase();
-    
-    const idx = next.findIndex(o => 
-      (o.gameSlug || "").toLowerCase() === targetGame && 
+
+    const idx = next.findIndex(o =>
+      (o.gameSlug || "").toLowerCase() === targetGame &&
       (o.itemSlug || "").toLowerCase() === targetItem
     );
-    
+
     if (idx !== -1) {
       next[idx].fixedPrice = Math.max(0, Number(value) || 0);
       setOverrides(next);
@@ -144,7 +144,7 @@ export default function PricingTab({
       const oSlug = (o.gameSlug || "").toLowerCase();
       if (oSlug !== filterSlug) return o;
       if (fixedItemFilter && !(o.itemSlug || "").toLowerCase().includes(fixedItemFilter.toLowerCase())) return o;
-      
+
       return { ...o, fixedPrice: Math.round(o.fixedPrice * multiplier) };
     });
     setOverrides(next);
@@ -199,7 +199,7 @@ export default function PricingTab({
               <h3 className="text-xs font-bold text-[var(--muted)]">Target Roles</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              {["user", "member", "admin"].map((type) => (
+              {["user", "admin"].map((type) => (
                 <button
                   key={type}
                   onClick={() => setPricingType(type)}

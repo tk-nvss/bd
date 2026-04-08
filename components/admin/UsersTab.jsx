@@ -609,7 +609,7 @@ function RoleDropdown({ value, onChange, disabled, compact }) {
 
   const roles = [
     { value: "user", label: "User", icon: <User size={12} /> },
-    { value: "member", label: "Member", icon: <Crown size={12} /> },
+    // { value: "member", label: "Member", icon: <Crown size={12} /> },
     { value: "admin", label: "Admin", icon: <ShieldCheck size={12} /> },
   ];
 
