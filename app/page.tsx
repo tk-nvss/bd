@@ -1,4 +1,5 @@
-import FuckIt from "@/components/FuckIt";
+// app/page.tsx
+import HomeSection from "@/components/Home/Home";
 
 export const metadata = {
   title: "Bdcoins Official – MLBB Diamond Top Up | Instant & Secure",
@@ -9,13 +10,14 @@ export const metadata = {
     "buy MLBB diamonds",
     "Mobile Legends recharge",
     "Bdcoins top up",
+
   ],
 };
 
 export default function Page() {
   return (
     <main>
-      <FuckIt />
+      <HomeSection />
     </main>
   );
 }
