@@ -30,7 +30,7 @@ export default function RootLayout({
           {/* <Header /> */}
           <main className="pt-16">{children}</main>
           {/* <Footer /> */}
-          <ClientComponents />
+          {/* <ClientComponents /> */}
         </GoogleOAuthProvider>
 
       </body>
