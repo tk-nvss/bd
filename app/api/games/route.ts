@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 
 /* ================= IMAGES ================= */
-const MLBB_MAIN_IMAGE = "/game-assets/mlbb-globbal.png";
+const MLBB_MAIN_IMAGE = "/game-assets/mlbb-bd.png";
 const MLBB_SMALL_IMAGE = "/game-assets/mlbb-small.png";
-const MLBB_SG_MY_IMAGE = "/game-assets/mlbb-global.png";
+const MLBB_SG_MY_IMAGE = "/game-assets/mlbb-sg.png";
 const MLBB_GLOBAL_IMAGE = "/game-assets/mlbb-globbal.png";
+const MLBB_INDO = "/game-assets/mlbb-indo.png";
+const MLBB_BUNDLE = "/game-assets/mlbb-bd.png";
 
 /* ================= OTT SECTION ================= */
 const OTTS = [
@@ -62,9 +64,9 @@ export async function GET() {
       let updatedGame = { ...game };
 
       // Rename MLBB SMALL/PHP → MLBB SMALL
-      if (updatedGame.gameName === "MLBB SMALL/PHP") {
-        updatedGame.gameName = "MLBB SMALL";
-      }
+      // if (updatedGame.gameName === "MLBB SMALL/PHP") {
+      //   updatedGame.gameName = "MLBB SMALL";
+      // }
 
       // Fix wrong publisher spelling
       if (updatedGame.gameFrom === "Moneyton") {
@@ -100,15 +102,27 @@ export async function GET() {
           image: MLBB_GLOBAL_IMAGE,
         };
       }
+      if (updatedGame.gameSlug === "mlbb-indo42") {
+        updatedGame.gameImageId = {
+          ...updatedGame.gameImageId,
+          image: MLBB_INDO,
+        };
+      }
 
       // Replace MLBB SMALL image
-      if (updatedGame.gameName === "MLBB SMALL") {
+      if (updatedGame.gameSlug === "mlbb-smallphp980") {
         updatedGame.gameImageId = {
           ...updatedGame.gameImageId,
           image: MLBB_SMALL_IMAGE,
         };
       }
 
+      if (updatedGame.gameSlug === "weeklymonthly-bundle931") {
+        updatedGame.gameImageId = {
+          ...updatedGame.gameImageId,
+          image: MLBB_BUNDLE,
+        };
+      }
       return updatedGame;
     };
 
