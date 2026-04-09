@@ -27,9 +27,9 @@ export default function RootLayout({
       <body className="">
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
 
-          <Header />
+          {/* <Header /> */}
           <main className="pt-16">{children}</main>
-          <Footer />
+          {/* <Footer /> */}
           <ClientComponents />
         </GoogleOAuthProvider>
 
